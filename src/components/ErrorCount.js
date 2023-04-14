@@ -72,7 +72,7 @@ const ErrorCount = () => {
     ],
   };
   return (
-    <div style={{ height: "500px", width: "500px" }}>
+    <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
       <Line data={data} />
     </div>
   );

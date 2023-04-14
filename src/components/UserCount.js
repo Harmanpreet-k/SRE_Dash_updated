@@ -83,7 +83,7 @@ const UserCount = () => {
     ],
   };
   return (
-    <div style={{ height: "400px", width: "400px" }}>
+    <div style={{ height: "300px", widht: "300px", marginLeft: "90px" }}>
       <Pie data={data} />
     </div>
   );

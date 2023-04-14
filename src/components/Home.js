@@ -77,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 6px 10px grey",
     borderRadius: theme.spacing(1),
     // justifyContent: "center",
+    backgroundColor: "#cbcef5",
+    scrollBehavior: "smooth",
   },
   button: {
     backgroundColor: "white",
@@ -100,17 +102,7 @@ const useStyles = makeStyles((theme) => ({
       color: "#002D62",
     },
   },
-  contentContainer: {
-    // flex: 1,
-    // padding: theme.spacing(2),
-    // display: "flex",
-    // justifyContent: "center",
-    // overflowY: "auto",
-    // alignItems: "center",
-  },
-  //   contentText: {
-  //     textAlign: "center",
-  //   },
+
   contentText: {
     fontWeight: "bold",
   },
@@ -136,11 +128,12 @@ const useStyles = makeStyles((theme) => ({
   },
   labelBox: {
     backgroundColor: "#f5f5f5", // Background color for the box
-    padding: theme.spacing(1), // Padding for the box
-    marginBottom: theme.spacing(1), // Margin bottom for spacing between boxes
+    // padding: theme.spacing(1), // Padding for the box
+    // marginBottom: theme.spacing(1), // Margin bottom for spacing between boxes
     borderRadius: theme.spacing(1), // Border radius for the box
     width: "200px",
     height: "30px",
+    textAlign: "center",
   },
   btn: {
     backgroundColor: "#EE9949",
@@ -172,6 +165,7 @@ function HomePage() {
   //   const [display, setDisplay] = useState(false);
   const [apiID, setApiID] = useState("");
   const [apiKey, setApiKey] = useState("");
+
   const handleConnectClick = () => {
     if (apiKey.trim() !== "") {
       window.location.href = "/home";
@@ -289,59 +283,147 @@ function HomePage() {
         </div>
       </div>
       {localStorage.getItem("display") == "false" && (
-        <Card className={classes.card} elevation={3}>
-          <CardContent
-            className={classes.contentContainer}
-            style={{ display: "flex", flexWrap: "wrap" }}
-          >
-            <div style={{ flex: 1 }}>
-              <Box className={classes.labelBox}>
-                <Typography className={classes.label} variant="subtitle1">
-                  Server Requests
-                </Typography>
-              </Box>
-              <ServerReq />
+        <Card className={classes.card2} elevation={3}>
+          {/* <Typography variant="h5">
+            {" "}
+            Analysis of App ID- {localStorage.getItem("apiId")}
+          </Typography> */}
+          <CardContent className="media-scroller">
+            <div
+              style={{
+                textAlign: "center",
+                backgroundColor: "#003151",
+                color: "white",
+                marginLeft: "85px",
+                marginRight: "85px",
+                borderRadius: "10px",
+                marginTop: "15px",
+              }}
+            >
+              <Typography variant="h5">
+                Analysis of App ID: {localStorage.getItem("apiId")}
+              </Typography>
             </div>
-            <div>
-              <Box className={classes.labelBox}>
-                <Typography className={classes.label} variant="subtitle1">
-                  Latency
-                </Typography>
-              </Box>
-              <Letancy />
-            </div>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "4rem",
+                justifyContent: "center",
+                marginTop: "50px",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "0.3px solid black ",
+                  borderRadius: "12px",
+                  padding: "10px",
+                  height: "350px",
+                  width: "500px",
+                  boxShadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                }}
+              >
+                <Box className={classes.labelBox}>
+                  <Typography className={classes.label} variant="subtitle1">
+                    Server Requests
+                  </Typography>
+                </Box>
+                <ServerReq />
+              </div>
 
-            <div>
-              <Box className={classes.labelBox}>
-                <Typography className={classes.label} variant="subtitle1">
-                  Error Count
-                </Typography>
-              </Box>
-              <ErrorCount />
-            </div>
-            <div>
-              <Box className={classes.labelBox}>
-                <Typography className={classes.label} variant="subtitle1">
-                  User Count
-                </Typography>
-              </Box>
-              <UserCount />
-            </div>
-            <div>
-              <Box className={classes.labelBox}>
-                <Typography className={classes.label} variant="subtitle1">
-                  Availibility
-                </Typography>
-              </Box>
-              <Availibility />
-            </div>
-            <div>
-              <Box className={classes.labelBox}>
-                <Typography className={classes.label} variant="subtitle1">
-                  Failed Requests
-                </Typography>
-              </Box>
-              <FailedReq />
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid black ",
+                  borderRadius: "20px",
+                  // borderRadius: "20px",
+                  padding: "10px",
+                  height: "350px",
+                  width: "500px",
+                  boxShadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                }}
+              >
+                <Box className={classes.labelBox}>
+                  <Typography className={classes.label} variant="subtitle1">
+                    Latency
+                  </Typography>
+                </Box>
+                <Letancy />
+              </div>
+
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid black ",
+                  borderRadius: "20px",
+                  padding: "10px",
+                  height: "350px",
+                  width: "500px",
+                  boxShadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                }}
+              >
+                <Box className={classes.labelBox}>
+                  <Typography className={classes.label} variant="subtitle1">
+                    Error Count
+                  </Typography>
+                </Box>
+                <ErrorCount />
+              </div>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid black ",
+                  borderRadius: "20px",
+                  padding: "10px",
+                  height: "350px",
+                  width: "500px",
+                  boxShadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                }}
+              >
+                <Box className={classes.labelBox}>
+                  <Typography className={classes.label} variant="subtitle1">
+                    User Count
+                  </Typography>
+                </Box>
+                <UserCount />
+              </div>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid black ",
+                  borderRadius: "20px",
+                  padding: "10px",
+                  height: "350px",
+                  width: "500px",
+                  boxShadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                }}
+              >
+                <Box className={classes.labelBox}>
+                  <Typography className={classes.label} variant="subtitle1">
+                    Availibility
+                  </Typography>
+                </Box>
+                <Availibility />
+              </div>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  border: "1px solid black ",
+                  borderRadius: "20px",
+                  padding: "10px",
+                  height: "350px",
+                  width: "500px",
+                  boxShadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                }}
+              >
+                <Box className={classes.labelBox}>
+                  <Typography className={classes.label} variant="subtitle1">
+                    Failed Requests
+                  </Typography>
+                </Box>
+                <FailedReq />
+              </div>
             </div>
           </CardContent>
         </Card>

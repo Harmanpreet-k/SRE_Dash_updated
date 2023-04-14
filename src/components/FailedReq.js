@@ -83,7 +83,7 @@ const FailedReq = () => {
     ],
   };
   return (
-    <div style={{ height: "600px", width: "500px" }}>
+    <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
       <Bar data={data} />
     </div>
   );

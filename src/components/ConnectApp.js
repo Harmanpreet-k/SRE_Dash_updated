@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
     "&:hover": {
       backgroundColor: "#be7a3a",
+      color: "white",
     },
   },
 
@@ -85,7 +86,7 @@ export default function ConnectData() {
     localStorage.setItem("apiId", newApiId);
   };
   const handleConnectClick = () => {
-    if (apiKey.trim() !== "") {
+    if (apiKey.trim() !== "" && apiID.trim() !== "") {
       // Do something with the API key and navigate to the dashboard
       window.location.href = "/home";
     }
@@ -140,7 +141,7 @@ export default function ConnectData() {
         >
           <TextField
             label="Enter API key "
-            variant="outlined"
+            // variant="outlined"
             style={{
               width: "70%",
               marginTop: "20px",
@@ -150,7 +151,7 @@ export default function ConnectData() {
           />
           <TextField
             label="Enter API ID "
-            variant="outlined"
+            // variant="outlined"
             style={{
               width: "70%",
               marginTop: "20px",
@@ -162,7 +163,7 @@ export default function ConnectData() {
             variant="contained"
             href="/home"
             className={classes.button}
-            disabled={apiKey.trim() === ""}
+            disabled={apiKey.trim() === "" && apiID.trim() === ""}
             onClick={handleConnectClick}
           >
             Connect to Dashboard

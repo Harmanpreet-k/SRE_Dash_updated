@@ -83,7 +83,7 @@ const Letancy = () => {
     ],
   };
   return (
-    <div style={{ height: "500px", width: "400px" }}>
+    <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
       <Line data={data} />
     </div>
   );
