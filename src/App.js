@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+// import BarChart from './components/BarChart'
+import React from "react";
+// import FailedReq from "./components/FailedReq";
+import Letancy from "./components/Letancy";
+import ServerReq from "./components/ServerReq";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./components/Home";
+import FailedReq from "./components/FailedReq";
+import ConnectData from "./components/ConnectApp";
+import Signup from "./components/SignUP";
+// import Login from "./components/login";
+import Login from "./components/Login";
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <Router>
+          <div>
+            <Routes>
+              <Route path="/Home" element={<HomePage />} />
+              <Route path="/failed" element={<FailedReq />} />
+              <Route path="/Server" element={<ServerReq />} />
+              <Route path="/Connect" element={<ConnectData />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/" element={<Login />} />
+
+              <Route path="/Letancy" element={<Letancy />} />
+            </Routes>
+          </div>
+        </Router>
+      </div>
+    </>
   );
 }
 

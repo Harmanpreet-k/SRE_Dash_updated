@@ -1,0 +1,13 @@
+.login-background-image {
+    background-image: url("D:/SRE_DASHBOARD/sre_app/public/login.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right;
+  }
+
+.sign-in{
+    padding-left: 50;
+    margin-left: 50;
+    padding-right: 90;
+    padding-top: 10;
+}

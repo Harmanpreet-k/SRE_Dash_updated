@@ -1,0 +1,96 @@
+.root {
+    /* display: flex; */
+    background-color: #080101;
+    /* height: 100vh; */
+  /* overflow-y: auto; */
+  }
+  .wrapper::-webkit-scrollbar{
+
+    display: none;
+    
+    }
+  .appBar {
+    z-index: 1201; /* increase z-index to overlap with the drawer */
+  }
+  .body {
+    background-color: #ffffff;
+    height: 100vh;
+  overflow-y: auto;
+  }
+  .menuButton {
+    margin-right: 36px;
+  }
+  
+  .drawer {
+    width: 240px;
+    flex-shrink: 0;
+  }
+  
+  .drawerPaper {
+    width: 240px;
+  }
+  .logo {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .content {
+    flexGrow: 1;
+    padding: 24px;
+  }
+  
+  .addDashboardDialogTextField {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .background-image {
+    background-image: url("D:/SRE_DASHBOARD/sre_app/public/home9.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover;
+    inline-size: 100%;
+    background-position: absolute;
+    width: 500px;
+    height: 450px;
+    flex: 1;
+    /* margin-left: 50px; */
+    /* margin-top: 70px; */
+    border-radius: 2%;
+    margin-bottom: 30px;
+    /* box-shadow: 5px 3px #242324; */
+   
+  }
+  .chartCard {
+
+   width: 100vw;
+    
+   height: calc(100vh - 40px);
+    
+   background: rgba(54, 162, 235, 0.2);
+    
+   display: flex;
+    
+   align-items: center;
+    
+   justify-content: center;
+    
+    
+    
+    }
+    
+    
+    
+    
+    .chartBox {
+    
+   width: 700px;
+    
+   padding: 20px;
+    
+   border-radius: 20px;
+    
+   border: solid 3px rgba(54, 162, 235, 1);
+    
+    background: white;
+    
+    }
