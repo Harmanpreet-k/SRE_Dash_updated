@@ -74,7 +74,7 @@ export default function ConnectData() {
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
   const [apiID, setApiID] = useState("");
-
+  const isSubmitDisabled = !(apiKey && apiID);
   const handleApiKeyChange = (event) => {
     const newApiKey = event.target.value;
     setApiKey(newApiKey);
@@ -142,6 +142,7 @@ export default function ConnectData() {
           <TextField
             label="Enter API key "
             // variant="outlined"
+            required
             style={{
               width: "70%",
               marginTop: "20px",
@@ -151,7 +152,7 @@ export default function ConnectData() {
           />
           <TextField
             label="Enter API ID "
-            // variant="outlined"
+            required
             style={{
               width: "70%",
               marginTop: "20px",
@@ -163,7 +164,7 @@ export default function ConnectData() {
             variant="contained"
             href="/home"
             className={classes.button}
-            disabled={apiKey.trim() === "" && apiID.trim() === ""}
+            disabled={isSubmitDisabled}
             onClick={handleConnectClick}
           >
             Connect to Dashboard

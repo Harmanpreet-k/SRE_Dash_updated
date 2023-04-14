@@ -152,6 +152,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
     "&:hover": {
       backgroundColor: "#be7a3a",
+      color: "white",
     },
   },
   label: {
@@ -165,7 +166,7 @@ function HomePage() {
   //   const [display, setDisplay] = useState(false);
   const [apiID, setApiID] = useState("");
   const [apiKey, setApiKey] = useState("");
-
+  const isSubmitDisabled = !(apiKey && apiID);
   const handleConnectClick = () => {
     if (apiKey.trim() !== "") {
       window.location.href = "/home";
@@ -244,6 +245,7 @@ function HomePage() {
           </Button>
           {/* Logout */}
           <Button
+            href="/"
             className={classes.bottomButton}
             startIcon={<ExitToAppIcon />}
             fullWidth
@@ -429,7 +431,7 @@ function HomePage() {
         </Card>
       )}
       {localStorage.getItem("display") == "true" && (
-        <Card className={classes.card2} elevation={3}>
+        <Card className={classes.card} elevation={3}>
           <CardContent
           // className={classes.contentContainer}
           // style={{ display: "flex", flexWrap: "wrap" }}
@@ -455,7 +457,8 @@ function HomePage() {
               >
                 <TextField
                   label="Enter API key "
-                  variant="outlined"
+                  required
+                  // variant="outlined"
                   style={{
                     width: "70%",
                     marginTop: "20px",
@@ -465,7 +468,8 @@ function HomePage() {
                 />
                 <TextField
                   label="Enter API ID "
-                  variant="outlined"
+                  required
+                  // variant="outlined"
                   style={{
                     width: "70%",
                     marginTop: "20px",
@@ -477,7 +481,7 @@ function HomePage() {
                   variant="contained"
                   href="/home"
                   className={classes.btn}
-                  disabled={apiKey.trim() === ""}
+                  disabled={isSubmitDisabled}
                   onClick={handleConnectClick}
                 >
                   Connect to Dashboard
