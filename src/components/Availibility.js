@@ -7,11 +7,38 @@ const Availibility = () => {
     xLabels: [],
     yLabels: [],
   });
+  const getName = () => {
+    const ApiKey = localStorage.getItem("apiKey");
+    const ApiId = localStorage.getItem("apiId");
+    fetch(`https://api.applicationinsights.io/v1/apps/${ApiId}/metaData`, {
+      headers: {
+        "x-api-key": `${ApiKey}`,
+      },
+    })
+      .then((response) => {
+        // Convert the response to JSON
+        return response.json();
+      })
+      .then((data) => {
+        // Access the "applications" value from the JSON data
+        const applications = data.applications;
+        // console.log(applications[0].name);
+        const appName = applications[0].name;
+        console.log(appName);
+        localStorage.setItem("appname", appName);
+      })
+      .catch((error) => {
+        // Handle any errors that may occur
+        console.error(error);
+      });
+  };
+  getName();
+
   const fetchChartData = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
-    console.log(ApiKey);
-    console.log(ApiId);
+    // console.log(ApiKey);
+    // console.log(ApiId);
 
     fetch(
       `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/availabilityResults/availabilityPercentage?timespan=P30D&interval=PT10M`,

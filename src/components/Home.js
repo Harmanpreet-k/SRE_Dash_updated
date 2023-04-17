@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 6px 10px grey",
     borderRadius: theme.spacing(1),
     // justifyContent: "center",
-    backgroundColor: "#cbcef5",
+    backgroundColor: "#cacce3",
     scrollBehavior: "smooth",
   },
   button: {
@@ -173,10 +173,12 @@ function HomePage() {
     }
     localStorage.setItem("display", false);
   };
+
   const handleApiKeyChange = (event) => {
     const newApiKey = event.target.value;
     setApiKey(newApiKey);
     localStorage.setItem("apiKey", newApiKey);
+    const appName = localStorage.getItem("apiKey");
   };
   const handleApiIdChange = (event) => {
     const newApiId = event.target.value;
@@ -303,7 +305,7 @@ function HomePage() {
               }}
             >
               <Typography variant="h5">
-                Analysis of App ID: {localStorage.getItem("apiId")}
+                Analysis of App Name: {localStorage.getItem("appname")}
               </Typography>
             </div>
             <div
@@ -467,7 +469,7 @@ function HomePage() {
                   onChange={handleApiKeyChange}
                 />
                 <TextField
-                  label="Enter API ID "
+                  label="Enter APP ID "
                   required
                   // variant="outlined"
                   style={{

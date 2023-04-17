@@ -86,10 +86,10 @@ export default function ConnectData() {
     localStorage.setItem("apiId", newApiId);
   };
   const handleConnectClick = () => {
-    if (apiKey.trim() !== "" && apiID.trim() !== "") {
-      // Do something with the API key and navigate to the dashboard
+    if (apiKey.trim() !== "") {
       window.location.href = "/home";
     }
+    localStorage.setItem("display", false);
   };
 
   return (
@@ -151,7 +151,7 @@ export default function ConnectData() {
             onChange={handleApiKeyChange}
           />
           <TextField
-            label="Enter API ID "
+            label="Enter APP ID "
             required
             style={{
               width: "70%",
