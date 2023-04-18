@@ -6,12 +6,7 @@ const ServerReq = () => {
     xLabels: [],
     yLabels: [],
   });
-  const date = new Date(); // replace this with your actual date object
 
-  const day = String(date.getDate());
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = String(date.getFullYear()).slice(-2);
-  const formattedDate = `${day}.${month}.${year}`;
   const fetchChartData = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
@@ -32,10 +27,10 @@ const ServerReq = () => {
         };
         console.log("data received", data);
         data.forEach((d) => {
-          new_data.xLabels.push(new Date().toDateString());
+          new_data.xLabels.push(new Date(d.start).toDateString());
           new_data.yLabels.push(d["requests/count"].sum);
         });
-        console.log("final newData:", new_data);
+        console.log("serv req:", new_data);
         setChartData(new_data);
       })
       .catch((err) => console.log("error while fetching the data: ", err));

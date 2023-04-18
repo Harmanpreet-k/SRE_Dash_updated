@@ -27,6 +27,7 @@ import Availibility from "./Availibility";
 // import Box from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
+
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   card2: {
     display: "flex",
     overflowY: "auto",
-    backgroundColor: "white",
+    // backgroundColor: "white",
     height: "81vh",
     marginTop: "90px",
     border: "1px solid #000000",
@@ -77,7 +78,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0px 6px 10px grey",
     borderRadius: theme.spacing(1),
     // justifyContent: "center",
-    backgroundColor: "#cacce3",
+    backgroundColor: "#f5f6fc",
+    // background: "hsl(0, 0%, 100%, 0.1)",
+    // backdropFilter: "blur(1rem)",
     scrollBehavior: "smooth",
   },
   button: {
@@ -296,7 +299,7 @@ function HomePage() {
             <div
               style={{
                 textAlign: "center",
-                backgroundColor: "#003151",
+                backgroundColor: "#002D62",
                 color: "white",
                 marginLeft: "85px",
                 marginRight: "85px",
@@ -305,7 +308,7 @@ function HomePage() {
               }}
             >
               <Typography variant="h5">
-                Analysis of App Name: {localStorage.getItem("appname")}
+                Analysis of App : {localStorage.getItem("appname")}
               </Typography>
             </div>
             <div
@@ -369,7 +372,7 @@ function HomePage() {
               >
                 <Box className={classes.labelBox}>
                   <Typography className={classes.label} variant="subtitle1">
-                    Error Count
+                    Exception Count
                   </Typography>
                 </Box>
                 <ErrorCount />

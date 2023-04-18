@@ -2,8 +2,8 @@
     /* display: flex; */
     background-color: #080101;
     /* height: 100vh; */
-  overflow-y: auto;
-  scroll-behavior: smooth;
+  /* overflow-y: auto; */
+  /* scroll-behavior: smooth; */
   
   }
   .wrapper::-webkit-scrollbar{

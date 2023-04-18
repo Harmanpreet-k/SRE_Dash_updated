@@ -48,7 +48,7 @@ const ErrorCount = () => {
     labels: chartData.xLabels,
     datasets: [
       {
-        label: "Error Counts",
+        label: "Exception Counts",
         backgroundColor: [
           "#007D9C",
           "#244D70",
