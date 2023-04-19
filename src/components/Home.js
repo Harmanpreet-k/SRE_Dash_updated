@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
-
+// import SpeedIcon from "@mui/icons-material/Speed";
 import "./home.css";
 
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -442,6 +442,8 @@ function HomePage() {
               onClick={isOpen ? handleDrawerClose : handleDrawerOpen}
             />
           </IconButton>
+          {/* <SpeedIcon></SpeedIcon> */}
+          <div></div>
           <Typography align="left" variant="h6" className={classes.title}>
             SRE Dashboard
           </Typography>
@@ -472,7 +474,7 @@ function HomePage() {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "space-around",
+                justifyContent: "space-between",
                 position: "fixed ",
                 background: "hsl(0, 0%, 100%, 0.1)",
                 backdropFilter: "blur(0.3em)",

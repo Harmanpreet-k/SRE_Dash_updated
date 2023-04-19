@@ -9,8 +9,12 @@
   .wrapper::-webkit-scrollbar{
     background-color: #000000;
     /* display: none; */
-    
     }
+    
+    .headerlogo{
+      img: url("C:/Users/harshita_jadhav/Downloads/SRE_Dash/SRE_Dash/srevisual/public/headerlogo.png");
+    }
+
   .appBar {
     z-index: 1201; /* increase z-index to overlap with the drawer */
   }
