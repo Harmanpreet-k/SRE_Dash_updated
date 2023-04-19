@@ -14,7 +14,40 @@
     .headerlogo{
       img: url("C:/Users/harshita_jadhav/Downloads/SRE_Dash/SRE_Dash/srevisual/public/headerlogo.png");
     }
-
+    .speedometer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .speedometer {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      color: #fff;
+    }
+    
+    .speedometer-value {
+      font-size: 48px;
+    }
+    
+    /* Define color classes based on your color scheme */
+    .red {
+      background-color: red;
+    }
+    
+    .yellow {
+      background-color: yellow;
+    }
+    
+    .green {
+      background-color: green;
+    }
+    
   .appBar {
     z-index: 1201; /* increase z-index to overlap with the drawer */
   }
