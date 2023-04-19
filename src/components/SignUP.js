@@ -9,12 +9,7 @@ import {
   Box,
   Link,
 } from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+
 import "./signup.css";
 
 const Signup = () => {
@@ -88,10 +83,8 @@ const Signup = () => {
       validateConfirmPassword() &&
       terms
     ) {
-      // Form is valid, submit data
       console.log("Form is valid");
     } else {
-      // Form is invalid, show error messages
       console.log("Form is invalid");
     }
   };
@@ -116,9 +109,7 @@ const Signup = () => {
       >
         <Box style={boxStyle}>
           <Grid align="center">
-            <Avatar style={avatarStyle}>
-              {/* <AddCircleOutlineOutlinedIcon /> */}
-            </Avatar>
+            <Avatar style={avatarStyle}></Avatar>
             <h2 style={headerStyle}>Sign Up</h2>
             <Typography variant="caption" gutterBottom>
               Please fill this form to create an account !
@@ -179,17 +170,6 @@ const Signup = () => {
               required
             />
 
-            {/* <FormControlLabel
-              control={
-                <Checkbox
-                  checked={terms}
-                  onChange={(e) => setTerms(e.target.checked)}
-                  name="checkedA"
-                  required
-                />
-              }
-              label="I accept the terms and conditions."
-            /> */}
             <Typography
               mt={4}
               style={textPrivate}
@@ -200,18 +180,6 @@ const Signup = () => {
               and Privacy Policy
             </Typography>
           </form>
-          {/* <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            color="primary"
-            style={{ marginTop: "10px" }}
-            onClick={handleSubmit}
-          >
-            <Link href="/Login" >
-              Sign in
-            </Link>
-          </Button> */}
           <Link
             href="/"
             style={{

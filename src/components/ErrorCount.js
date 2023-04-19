@@ -50,20 +50,23 @@ const ErrorCount = () => {
       {
         label: "Exception Counts",
         backgroundColor: [
-          "#007D9C",
-          "#244D70",
-          "#D123B3",
-          "#F7E018",
-          "#fff",
-          "#FE452A",
+          "#fff2bf",
+
+          "#f7a400",
+          "#3a9efd",
+          "#3e4491",
+          "#292a73",
+          "#1a1b4b",
         ],
         borderColor: [
-          "rgba(255,99,132,1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
+          "#ad8a00",
+          "#fff2bf",
+
+          "#f7a400",
+          "#3a9efd",
+          "#3e4491",
+          "#292a73",
+          "#1a1b4b",
         ],
         borderWidth: 1,
 

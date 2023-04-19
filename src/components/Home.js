@@ -7,13 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
-import { useNavigate } from "react-router-dom";
+
 import "./home.css";
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PersonIcon from "@material-ui/icons/Person";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -71,14 +67,14 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
     // backgroundColor: "white",
     height: "81vh",
-    marginTop: "90px",
+    marginTop: "80px",
     border: "1px solid #000000",
     margin: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    // paddingBottom: theme.spacing(2),
     boxShadow: "0px 6px 10px grey",
     borderRadius: theme.spacing(1),
     // justifyContent: "center",
-    backgroundColor: "#f5f6fc",
+    backgroundColor: "#6592FD",
     // background: "hsl(0, 0%, 100%, 0.1)",
     // backdropFilter: "blur(1rem)",
     scrollBehavior: "smooth",
@@ -162,8 +158,26 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold", // Font weight for the label text
   },
 }));
-
 function HomePage() {
+  const [appname, setAppname] = useState("");
+  const [score, setScore] = useState("");
+  // let appname = " ";
+  // let score = " ";
+  useEffect(() => {
+    setTimeout(() => {
+      const retrievedAppname = localStorage.getItem("appname");
+      setAppname(retrievedAppname || ""); // Update appname state with retrieved value or empty string
+    }, 1000);
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      const retrievedScore = localStorage.getItem("score");
+      setScore(retrievedScore || ""); // Update score state with retrieved value or empty string
+
+      // Update appname state with retrieved value or empty string
+    }, 6000);
+  }, []);
+
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   //   const [display, setDisplay] = useState(false);
@@ -196,6 +210,164 @@ function HomePage() {
   const handleDrawerClose = () => {
     setIsOpen(false);
   };
+  const ApiKey = localStorage.getItem("apiKey");
+  const ApiId = localStorage.getItem("apiId");
+  let server;
+  let failed;
+  let avail;
+  let response;
+  let sucess;
+
+  const req = () => {
+    fetch(
+      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/count?timespan=P1D&interval=PT24H`,
+      {
+        headers: {
+          "x-api-key": `${ApiKey}`,
+        },
+      }
+    )
+      .then((response) => {
+        // Convert the response to JSON
+        return response.json();
+      })
+
+      .then((data) => {
+        // Access the "applications" value from the JSON data
+        // const applications = data.applications;
+        // console.log(applications[0].name);
+        // const appName = applications[0].name;
+        // console.log(data);
+        server = data.value.segments[0]["requests/count"].sum;
+        // server = 100;
+
+        console.log(server, "server");
+
+        // localStorage.setItem("appname", appName);
+      })
+      .catch((error) => {
+        // Handle any errors that may occur
+        console.error(error);
+      });
+  };
+
+  fetch(
+    `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/failed?timespan=P30D&interval=P1D`,
+    {
+      headers: {
+        "x-api-key": `${ApiKey}`,
+      },
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+
+    .then((data) => {
+      failed = data.value.segments[0]["requests/failed"].sum;
+
+      console.log(failed, "failed");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  fetch(
+    `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/availabilityResults/availabilityPercentage?timespan=P30D&interval=PT10M`,
+    {
+      headers: {
+        "x-api-key": `${ApiKey}`,
+      },
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+
+    .then((data) => {
+      avail = 100;
+      console.log(avail, "avail");
+      console.log(typeof avail);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  fetch(
+    `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/duration?timespan=P1D&interval=PT24H`,
+    {
+      headers: {
+        "x-api-key": `${ApiKey}`,
+      },
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+
+    .then((data) => {
+      //   console.log(data);
+      response = data.value.segments[0]["requests/duration"].avg;
+      //   response = 4000;
+
+      console.log(response, "response");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  req();
+  setTimeout(() => {
+    sucess = ((server - failed) / server) * 100;
+    // sucess = 50;
+
+    console.log(sucess, "sucess");
+  }, 2000);
+
+  //   var i = 0;
+  const ReliabilityScore = () => {
+    // Your logic here
+    let result = ""; // Store the result as a string
+
+    setTimeout(() => {
+      if (!sucess || !response || !avail) {
+        result = "NA";
+      } else {
+        if (sucess >= 99 && response <= 2000 && avail >= 99) {
+          result = "Good";
+        } else if (
+          (sucess >= 99 && response <= 2000) ||
+          (avail >= 99 && response <= 2000) ||
+          (avail >= 99 && sucess >= 99)
+        ) {
+          result = "Average";
+        } else if (sucess >= 99 || response <= 2000 || avail >= 99) {
+          result = "Bad";
+        } else {
+          result = "Poor";
+        }
+      }
+
+      // Store the result in localStorage
+      localStorage.setItem("score", result);
+    }, 3000);
+  };
+
+  ReliabilityScore();
+
+  const result = localStorage.getItem("score");
+  console.log(result, "res");
+  let bgColor = "";
+
+  // Determine the background color based on the score
+  if (result === "Bad") {
+    bgColor = "#ffa940";
+  } else if (result === "Average") {
+    bgColor = "#3e4491";
+  } else if (result === "Poor") {
+    bgColor = "#ff3535";
+  } else if (result === "Good") {
+    bgColor = "#78ce4f";
+  } else {
+    bgColor = "#FFDA03";
+  }
   return (
     <>
       <Drawer
@@ -293,23 +465,64 @@ function HomePage() {
         <Card className={classes.card2} elevation={3}>
           {/* <Typography variant="h5">
             {" "}
-            Analysis of App ID- {localStorage.getItem("apiId")}
+            // Analysis of App ID- {localStorage.getItem("apiId")}
           </Typography> */}
           <CardContent className="media-scroller">
             <div
               style={{
-                textAlign: "center",
-                backgroundColor: "#002D62",
-                color: "white",
-                marginLeft: "85px",
-                marginRight: "85px",
-                borderRadius: "10px",
-                marginTop: "15px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                position: "fixed ",
+                background: "hsl(0, 0%, 100%, 0.1)",
+                backdropFilter: "blur(0.3em)",
+                width: "95vw",
+                marginTop: "0px",
+                padding: "0",
+                // top: 0,
+                // boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
               }}
             >
-              <Typography variant="h5">
-                Analysis of App : {localStorage.getItem("appname")}
-              </Typography>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr auto", // Use grid layout to display appname and score in a row
+                  alignItems: "center",
+                  gap: "10px",
+                  textAlign: "left",
+                  color: "white",
+                  // marginRight: "85px",
+                  marginTop: "0px",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                  // shadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+                  textShadow: "3px 3px 5px rgba(0, 0, 0, 1)",
+                }}
+              >
+                {/* <Typography variant="h5"> */}
+                {/* hii */}
+                {appname}
+                {/* </Typography> */}
+              </div>
+              <div
+                style={{
+                  // marginLeft: "600px",
+
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  backgroundColor: bgColor,
+                  color: "white",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
+                {" "}
+                {score}
+              </div>
             </div>
             <div
               style={{
@@ -317,7 +530,7 @@ function HomePage() {
                 flexWrap: "wrap",
                 gap: "4rem",
                 justifyContent: "center",
-                marginTop: "50px",
+                marginTop: "80px",
               }}
             >
               <div

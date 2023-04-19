@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Button, CardMedia, Typography } from "@material-ui/core";
 import { Avatar, TextField, Link } from "@material-ui/core";
-
+import Modal from "react-modal";
 import ArrowBack from "@material-ui/icons/ArrowBackIos";
 
 import "./connect.css";
@@ -74,6 +74,7 @@ export default function ConnectData() {
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
   const [apiID, setApiID] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   const isSubmitDisabled = !(apiKey && apiID);
   const handleApiKeyChange = (event) => {
     const newApiKey = event.target.value;
@@ -86,9 +87,15 @@ export default function ConnectData() {
     localStorage.setItem("apiId", newApiId);
   };
   const handleConnectClick = () => {
+    // setShowAlert(false);
     if (apiKey.trim() !== "") {
       window.location.href = "/home";
     }
+
+    // alert("analysing your app");
+
+    // setShowAlert(false);
+
     localStorage.setItem("display", false);
   };
 
@@ -160,6 +167,7 @@ export default function ConnectData() {
             value={apiID}
             onChange={handleApiIdChange}
           />
+
           <Button
             variant="contained"
             href="/home"
@@ -169,6 +177,7 @@ export default function ConnectData() {
           >
             Connect to Dashboard
           </Button>
+
           {/* </div> */}
         </div>
       </div>

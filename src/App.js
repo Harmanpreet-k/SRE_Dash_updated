@@ -10,6 +10,7 @@ import FailedReq from "./components/FailedReq";
 import ConnectData from "./components/ConnectApp";
 import Signup from "./components/SignUP";
 // import Login from "./components/login";
+import ReliabilityScore from "./components/ReliabilityScore";
 import Login from "./components/Login";
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/Connect" element={<ConnectData />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/" element={<Login />} />
+              <Route path="/reliability" element={<ReliabilityScore />} />
 
               <Route path="/Letancy" element={<Letancy />} />
             </Routes>
