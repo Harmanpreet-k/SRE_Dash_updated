@@ -69,6 +69,7 @@ const Login = () => {
             localStorage.setItem("display", true);
           } else {
             console.log("Invalid username or password");
+            setError("Incorrect username or password.");
           }
         } else {
           console.log("Form is invalid");

@@ -9,7 +9,7 @@ import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
 // import SpeedIcon from "@mui/icons-material/Speed";
 import "./home.css";
-
+import { Doughnut } from "react-chartjs-2";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PersonIcon from "@material-ui/icons/Person";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -21,6 +21,8 @@ import ErrorCount from "./ErrorCount";
 import FailedReq from "./FailedReq";
 import Availibility from "./Availibility";
 // import Box from "@material-ui/core";
+import ReactSpeedometer from "react-d3-speedometer";
+
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 
@@ -158,11 +160,11 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold", // Font weight for the label text
   },
 }));
+
 function HomePage() {
   const [appname, setAppname] = useState("");
   const [score, setScore] = useState("");
-  // let appname = " ";
-  // let score = " ";
+
   useEffect(() => {
     setTimeout(() => {
       const retrievedAppname = localStorage.getItem("appname");
@@ -355,19 +357,26 @@ function HomePage() {
   const result = localStorage.getItem("score");
   console.log(result, "res");
   let bgColor = "";
-
+  let value = 8; // default value
   // Determine the background color based on the score
   if (result === "Bad") {
-    bgColor = "#ffa940";
-  } else if (result === "Average") {
-    bgColor = "#3e4491";
+    // bgColor = "#FFDA03";
+    bgColor = " #F7B032";
+    value = 28;
   } else if (result === "Poor") {
-    bgColor = "#ff3535";
+    // bgColor = "#ffa940";
+    bgColor = "#FEF37D";
+    value = 48;
+  } else if (result === "Average") {
+    bgColor = "#EF9100";
+    value = 68;
   } else if (result === "Good") {
-    bgColor = "#78ce4f";
+    bgColor = "#94C120";
+    value = 98;
   } else {
-    bgColor = "#FFDA03";
+    bgColor = "#EA4E1B";
   }
+
   return (
     <>
       <Drawer
@@ -465,10 +474,6 @@ function HomePage() {
       </div>
       {localStorage.getItem("display") == "false" && (
         <Card className={classes.card2} elevation={3}>
-          {/* <Typography variant="h5">
-            {" "}
-            // Analysis of App ID- {localStorage.getItem("apiId")}
-          </Typography> */}
           <CardContent className="media-scroller">
             <div
               style={{
@@ -479,8 +484,11 @@ function HomePage() {
                 background: "hsl(0, 0%, 100%, 0.1)",
                 backdropFilter: "blur(0.3em)",
                 width: "95vw",
-                marginTop: "0px",
+                marginTop: "-14px",
                 padding: "0",
+                marginLeft: "-9px",
+                borderRadius: "5px",
+                // alignItems: "start",
                 // top: 0,
                 // boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
               }}
@@ -497,34 +505,83 @@ function HomePage() {
                   marginTop: "0px",
                   fontSize: "25px",
                   fontWeight: "bold",
-                  // shadow: "0px 9px 10px 1px rgba(0,0,0,0.2)",
+
                   textShadow: "3px 3px 5px rgba(0, 0, 0, 1)",
                 }}
               >
-                {/* <Typography variant="h5"> */}
-                {/* hii */}
                 {appname}
-                {/* </Typography> */}
               </div>
-              <div
+              {/* <div
                 style={{
-                  // marginLeft: "600px",
-
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   width: "80px",
                   height: "80px",
                   borderRadius: "50%",
-                  backgroundColor: bgColor,
+                  // backgroundColor: bgColor,
                   color: "white",
                   fontSize: "18px",
                   fontWeight: "bold",
                 }}
               >
                 {" "}
-                {score}
-              </div>
+                {sucess}
+              </div> */}
+              <ReactSpeedometer
+                styles={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                  padding: "0",
+                }}
+                value={value} // the value to be shown on the speedometer
+                minValue={0} // the minimum value of the speedometer
+                maxValue={100} // the maximum value of the speedometer
+                width={200} // the width of the speedometer
+                height={125} // the height of the speedometer
+                needleColor="black" // the color of the needle
+                startColor="#E94A20" // the color of the start segment
+                endColor="#94C120" // the color of the end segment
+                segments={5} // the number of segments on the speedometer
+                textColor="black" // the color of the text labels
+                needleTransitionDuration={3336} // the duration of the needle transition animation
+                needleHeightRatio={0.5}
+                // valueTextVisibility={false}
+                needleTransition="easeElastic"
+                valueTextFontSize="0px"
+                customSegmentLabels={[
+                  {
+                    text: "NA",
+                    position: "INSIDE",
+                    color: "white",
+                    fontSize: "10px",
+                  },
+                  {
+                    text: "Bad",
+                    position: "INSIDE",
+                    color: "white",
+                    fontSize: "10px",
+                  },
+                  {
+                    text: "Poor",
+                    position: "INSIDE",
+                    color: "white",
+                    fontSize: "10px",
+                  },
+                  {
+                    text: "Avg",
+                    position: "INSIDE",
+                    color: "white",
+                    fontSize: "10px",
+                  },
+                  {
+                    text: "Good",
+                    position: "INSIDE",
+                    color: "white",
+                    fontSize: "10px",
+                  },
+                ]}
+              />
             </div>
             <div
               style={{
@@ -532,7 +589,7 @@ function HomePage() {
                 flexWrap: "wrap",
                 gap: "4rem",
                 justifyContent: "center",
-                marginTop: "80px",
+                marginTop: "115px",
               }}
             >
               <div

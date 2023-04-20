@@ -30,7 +30,8 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const validateName = () => {
-    if (name.length === 0) {
+    const namePattern = /^[a-zA-Z]+$/;
+    if (name.length === 0 || !namePattern.test(name)) {
       setNameError(true);
       return false;
     }

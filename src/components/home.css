@@ -47,6 +47,58 @@
     .green {
       background-color: green;
     }
+    .doughnut {
+      width: 100%; /* Set the width of the doughnut to 100% of the container */
+      height: 100%; /* Set the height of the doughnut to 100% of the container */
+      border-radius: 50%; /* Set the border radius to create a circle */
+      overflow: hidden; /* Hide overflow to create the doughnut shape */
+      position: relative; /* Set the position of the doughnut to relative */
+    }
+    
+    .doughnut-segment {
+      width: 100%; /* Set the width of the doughnut segments to 100% */
+      height: 50%; /* Set the height of the doughnut segments to 50% */
+      position: absolute; /* Set the position of the doughnut segments to absolute within the doughnut */
+      transform-origin: bottom; /* Set the transform origin to the bottom to rotate the segments from the bottom */
+    }
+    
+    .doughnut-segment-bad {
+      background-color: #ffa940; /* Set the background color for "Bad" result */
+    }
+    
+    .doughnut-segment-average {
+      background-color: #3e4491; /* Set the background color for "Average" result */
+    }
+    
+    .doughnut-segment-poor {
+      background-color: #ff3535; /* Set the background color for "Poor" result */
+    }
+    
+    .doughnut-segment-good {
+      background-color: #78ce4f; /* Set the background color for "Good" result */
+    }
+    
+    .doughnut-segment-default {
+      background-color: #FFDA03; /* Set the default background color for other results */
+    }
+    
+    .doughnut-arrow-pointer {
+      width: 100%; /* Set the width of the arrow pointer to 100% */
+      height: 100%; /* Set the height of the arrow pointer to 100% */
+      transform-origin: bottom center; /* Set the transform origin to the bottom center to rotate the arrow from the bottom */
+      position: absolute; /* Set the position of the arrow pointer to absolute within the doughnut */
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    
+    .doughnut-arrow-icon {
+      width: 20px; /* Set the width of the arrow icon */
+      height: 20px; /* Set the height of the arrow icon */
+      background-color: #000; /* Set the background color of the arrow icon */
+      /* Add any additional styling for the arrow icon as needed */
+    }
     
   .appBar {
     z-index: 1201; /* increase z-index to overlap with the drawer */
