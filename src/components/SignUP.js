@@ -9,7 +9,10 @@ import {
   Box,
   Link,
 } from "@material-ui/core";
-
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import "./signup.css";
 
 const Signup = () => {
@@ -24,9 +27,11 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [terms, setTerms] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const validateName = () => {
-    if (name.length === 0) {
+    const namePattern = /^[a-zA-Z]+$/;
+    if (name.length === 0 || !namePattern.test(name)) {
       setNameError(true);
       return false;
     }
@@ -72,7 +77,13 @@ const Signup = () => {
     setConfirmPasswordError(false);
     return true;
   };
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
+  const handleToggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -80,10 +91,28 @@ const Signup = () => {
       validateEmail() &&
       validatePhone() &&
       validatePassword() &&
-      validateConfirmPassword() &&
-      terms
+      validateConfirmPassword()
     ) {
+      // Create an object with input data
+      const userData = {
+        name,
+        email,
+        phone,
+        password,
+      };
+
+      // Retrieve existing data from localStorage or create an empty array
+      const storedData = localStorage.getItem("formData");
+      const formDataArray = storedData ? JSON.parse(storedData) : [];
+
+      // Add the new form data to the array
+      formDataArray.push(userData);
+
+      // Store the updated array in localStorage
+      localStorage.setItem("userData", JSON.stringify(formDataArray));
+
       console.log("Form is valid");
+      window.location.href = "/";
     } else {
       console.log("Form is invalid");
     }
@@ -152,22 +181,42 @@ const Signup = () => {
               fullWidth
               label="Password"
               placeholder="Enter your password"
-              type="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
               error={passwordError}
-              helperText={passwordError ? "Please enter strong password" : ""}
+              helperText={passwordError ? "Please enter a strong password" : ""}
               onChange={(e) => setPassword(e.target.value)}
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleTogglePasswordVisibility}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <TextField
               fullWidth
               label="Confirm Password"
               placeholder="Confirm your password"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
               error={confirmPasswordError}
               helperText={confirmPasswordError ? "Passwords do not match" : ""}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleToggleConfirmPasswordVisibility}>
+                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <Typography
@@ -181,7 +230,6 @@ const Signup = () => {
             </Typography>
           </form>
           <Link
-            href="/"
             style={{
               display: "inline-block",
               backgroundColor: "#3f51b5",
