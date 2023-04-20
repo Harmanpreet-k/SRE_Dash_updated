@@ -3,6 +3,9 @@ import Chart from "chart.js/auto";
 import { Bar, Pie, Line } from "react-chartjs-2";
 
 const ErrorCount = () => {
+  const [loader, setLoader] = useState(true);
+
+  const [datas, setDatas] = useState();
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -35,6 +38,13 @@ const ErrorCount = () => {
         });
         console.log("final newData:", new_data);
         setChartData(new_data);
+        // console.log("final newData:", new_data);
+
+        //         setChartData(new_data);
+
+        setDatas(chartData.yLabels);
+
+        setLoader(false);
       })
       .catch((err) => console.log("error while fetching the data: ", err));
   };
@@ -70,13 +80,38 @@ const ErrorCount = () => {
         ],
         borderWidth: 1,
 
-        data: chartData.yLabels,
+        data: datas,
       },
     ],
   };
   return (
     <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
-      <Line data={data} />
+      {/* <Line data={data} /> */}
+      {loader ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>loading chart...</p>
+        </div>
+      ) : datas.length < 1 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>No data available</p>
+        </div>
+      ) : (
+        <Line data={data} />
+      )}
     </div>
   );
 };

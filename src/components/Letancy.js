@@ -3,6 +3,9 @@ import Chart from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
 const Letancy = () => {
+  const [loader, setLoader] = useState(true);
+
+  const [datas, setDatas] = useState();
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -30,8 +33,15 @@ const Letancy = () => {
           new_data.xLabels.push(new Date(d.start).toDateString());
           new_data.yLabels.push(d["requests/duration"].avg);
         });
-        // console.log("final newData:", new_data);
+        console.log("final newData:", new_data);
         setChartData(new_data);
+        // console.log("final newData:", new_data);
+
+        //         setChartData(new_data);
+
+        setDatas(chartData.yLabels);
+
+        setLoader(false);
       })
       .catch((err) => console.log("error while fetching the data: ", err));
   };
@@ -67,13 +77,37 @@ const Letancy = () => {
           "#1a1b4b",
         ],
         borderWidth: 1,
-        data: chartData.yLabels,
+        data: datas,
       },
     ],
   };
   return (
     <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
-      <Line data={data} />
+      {loader ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>loading chart...</p>
+        </div>
+      ) : datas.length < 1 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>No data available</p>
+        </div>
+      ) : (
+        <Line data={data} />
+      )}
     </div>
   );
 };

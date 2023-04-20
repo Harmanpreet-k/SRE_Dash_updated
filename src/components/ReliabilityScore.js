@@ -17,6 +17,9 @@ import { Paper } from "@material-ui/core";
 // import { Animation } from "@devexpress/dx-react-chart/dist/dx-react-chart.es.js";
 // import { Animation } from "chart.js";
 function ReliabilityScore() {
+  const [loader, setLoader] = useState(true);
+
+  const [datas, setDatas] = useState();
   // window.location.reload();
   const [chartData, setChartData] = useState(data);
   const ApiKey = localStorage.getItem("apiKey");

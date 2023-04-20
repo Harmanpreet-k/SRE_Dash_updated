@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import { Bar, Pie } from "react-chartjs-2";
 const ServerReq = () => {
+  const [loader, setLoader] = useState(true);
+
+  const [datas, setDatas] = useState();
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -30,8 +33,15 @@ const ServerReq = () => {
           new_data.xLabels.push(new Date(d.start).toDateString());
           new_data.yLabels.push(d["requests/count"].sum);
         });
-        // console.log("serv req:", new_data);
+        console.log("final newData:", new_data);
         setChartData(new_data);
+        // console.log("final newData:", new_data);
+
+        //         setChartData(new_data);
+
+        setDatas(chartData.yLabels);
+
+        setLoader(false);
       })
       .catch((err) => console.log("error while fetching the data: ", err));
   };
@@ -67,7 +77,7 @@ const ServerReq = () => {
         ],
         borderWidth: 1,
         hoverOffset: 4,
-        data: chartData.yLabels,
+        data: datas,
       },
     ],
   };
@@ -82,7 +92,32 @@ const ServerReq = () => {
   };
   return (
     <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
-      <Bar data={data} options={options} />
+      {/* < /> */}
+      {loader ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>loading chart...</p>
+        </div>
+      ) : datas.length < 1 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>No data available</p>
+        </div>
+      ) : (
+        <Bar data={data} options={options} />
+      )}
     </div>
   );
 };

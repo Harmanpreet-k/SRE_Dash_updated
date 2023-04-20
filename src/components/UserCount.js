@@ -4,6 +4,9 @@ import { Bar, Pie } from "react-chartjs-2";
 import { Doughnut } from "react-chartjs-2";
 import { PolarArea } from "react-chartjs-2";
 const UserCount = () => {
+  const [loader, setLoader] = useState(true);
+
+  const [datas, setDatas] = useState();
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -31,8 +34,15 @@ const UserCount = () => {
           new_data.xLabels.push(new Date(d.start).toDateString());
           new_data.yLabels.push(d["users/count"].unique);
         });
-        // console.log("final newData:", new_data);
+        console.log("final newData:", new_data);
         setChartData(new_data);
+        // console.log("final newData:", new_data);
+
+        //         setChartData(new_data);
+
+        setDatas(chartData.yLabels);
+
+        setLoader(false);
       })
       .catch((err) => console.log("error while fetching the data: ", err));
   };
@@ -68,13 +78,37 @@ const UserCount = () => {
         ],
         borderWidth: 1,
         hoverOffset: 4,
-        data: chartData.yLabels,
+        data: datas,
       },
     ],
   };
   return (
     <div style={{ height: "300px", widht: "300px", marginLeft: "90px" }}>
-      <Doughnut data={data} />
+      {loader ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>loading chart...</p>
+        </div>
+      ) : datas.length < 1 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>No data available</p>
+        </div>
+      ) : (
+        <Doughnut data={data} />
+      )}
     </div>
   );
 };
