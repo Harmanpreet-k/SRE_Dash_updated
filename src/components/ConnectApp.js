@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { useNavigate } from "react-router-dom";
 import { Button, CardMedia, Typography } from "@material-ui/core";
 import { Avatar, TextField, Link } from "@material-ui/core";
 import Modal from "react-modal";
@@ -70,11 +70,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ConnectData() {
+  const navigate = useNavigate();
+
   const avatarStyle = { backgroundColor: "Black" };
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
   const [apiID, setApiID] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [validationResult, setValidationResult] = useState("");
   const isSubmitDisabled = !(apiKey && apiID);
   const handleApiKeyChange = (event) => {
     const newApiKey = event.target.value;
@@ -88,8 +91,13 @@ export default function ConnectData() {
   };
   const handleConnectClick = () => {
     // setShowAlert(false);
+
     if (apiKey.trim() !== "") {
       window.location.href = "/home";
+      // const apiKey = "YOUR_API_KEY";
+      // const appId = "YOUR_APP_ID";
+
+      // window.location.reload();
     }
 
     // alert("analysing your app");
@@ -170,7 +178,7 @@ export default function ConnectData() {
 
           <Button
             variant="contained"
-            href="/home"
+            // href="/home"
             className={classes.button}
             disabled={isSubmitDisabled}
             onClick={handleConnectClick}

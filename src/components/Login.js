@@ -156,12 +156,14 @@ const Login = () => {
             Sign in
           </Link>
           <Typography>
-            <Link href="#">Forgot password ?</Link>
+            {/* <Link href="#">Forgot password ?</Link> */}
           </Typography>
-          <Typography sx={{ pt: -20 }}>
-            {" "}
-            Don't have an account ?<Link href="/Signup">Sign up</Link>
-          </Typography>
+          <div style={{ marginTop: "20px" }}>
+            <Typography sx={{ pt: -20 }}>
+              {" "}
+              Don't have an account ?<Link href="/Signup">Sign up</Link>
+            </Typography>
+          </div>
         </Box>
       </Paper>
     </Grid>

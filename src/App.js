@@ -4,7 +4,12 @@ import React from "react";
 // import FailedReq from "./components/FailedReq";
 import Letancy from "./components/Letancy";
 import ServerReq from "./components/ServerReq";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  BrowserRouter,
+} from "react-router-dom";
 import HomePage from "./components/Home";
 import FailedReq from "./components/FailedReq";
 import ConnectData from "./components/ConnectApp";
@@ -12,25 +17,26 @@ import Signup from "./components/SignUP";
 // import Login from "./components/login";
 import ReliabilityScore from "./components/ReliabilityScore";
 import Login from "./components/Login";
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <>
       <div>
-        <Router>
+        <BrowserRouter forceRefresh={true}>
           <div>
             <Routes>
-              <Route path="/Home" element={<HomePage />} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="/failed" element={<FailedReq />} />
-              <Route path="/Server" element={<ServerReq />} />
-              <Route path="/Connect" element={<ConnectData />} />
+              <Route path="/server" element={<ServerReq />} />
+              <Route path="/connect" element={<ConnectData />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/" element={<Login />} />
               <Route path="/reliability" element={<ReliabilityScore />} />
-
-              <Route path="/Letancy" element={<Letancy />} />
+              <Route path="/letancy" element={<Letancy />} />
+              <Route path="/404" element={<NotFound />} />
             </Routes>
           </div>
-        </Router>
+        </BrowserRouter>
       </div>
     </>
   );

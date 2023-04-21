@@ -4,9 +4,6 @@ import { Bar, Pie } from "react-chartjs-2";
 import { Doughnut } from "react-chartjs-2";
 import { PolarArea } from "react-chartjs-2";
 const UserCount = () => {
-  const [loader, setLoader] = useState(true);
-
-  const [datas, setDatas] = useState();
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -15,7 +12,7 @@ const UserCount = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
     fetch(
-      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/users/count?timespan=P30D&interval=PT1H`,
+      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/users/count?timespan=P30D&interval=P1D`,
       {
         headers: {
           "x-api-key": `${ApiKey}`,
@@ -34,15 +31,8 @@ const UserCount = () => {
           new_data.xLabels.push(new Date(d.start).toDateString());
           new_data.yLabels.push(d["users/count"].unique);
         });
-        console.log("final newData:", new_data);
-        setChartData(new_data);
         // console.log("final newData:", new_data);
-
-        //         setChartData(new_data);
-
-        setDatas(chartData.yLabels);
-
-        setLoader(false);
+        setChartData(new_data);
       })
       .catch((err) => console.log("error while fetching the data: ", err));
   };
@@ -78,37 +68,13 @@ const UserCount = () => {
         ],
         borderWidth: 1,
         hoverOffset: 4,
-        data: datas,
+        data: chartData.yLabels,
       },
     ],
   };
   return (
     <div style={{ height: "300px", widht: "300px", marginLeft: "90px" }}>
-      {loader ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "60%",
-          }}
-        >
-          <p>loading chart...</p>
-        </div>
-      ) : datas.length < 1 ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "60%",
-          }}
-        >
-          <p>No data available</p>
-        </div>
-      ) : (
-        <Doughnut data={data} />
-      )}
+      <Doughnut data={data} />
     </div>
   );
 };

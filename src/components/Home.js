@@ -169,6 +169,7 @@ function HomePage() {
     setTimeout(() => {
       const retrievedAppname = localStorage.getItem("appname");
       setAppname(retrievedAppname || ""); // Update appname state with retrieved value or empty string
+      // window.location.reload();
     }, 1000);
   }, []);
   useEffect(() => {
@@ -286,9 +287,18 @@ function HomePage() {
     })
 
     .then((data) => {
-      avail = 100;
+      // avail = 100;
+      // console.log(data, "data");
+      // console.log(avail, "avail");
+      // console.log(typeof avail);
+      avail =
+        data.value.segments[0]["availabilityResults/availabilityPercentage"]
+          .avg;
       console.log(avail, "avail");
-      console.log(typeof avail);
+      // avail = data.value.segments[0]["availabilityResults/availabilityPercentage"].avg;
+      //   response = 4000;
+
+      // console.log(response, "response");
     })
     .catch((error) => {
       console.error(error);
@@ -361,20 +371,20 @@ function HomePage() {
   // Determine the background color based on the score
   if (result === "Bad") {
     // bgColor = "#FFDA03";
-    bgColor = " #F7B032";
+    // bgColor = " #F7B032";
     value = 28;
   } else if (result === "Poor") {
     // bgColor = "#ffa940";
-    bgColor = "#FEF37D";
+    // bgColor = "#FEF37D";
     value = 48;
   } else if (result === "Average") {
-    bgColor = "#EF9100";
+    // bgColor = "#EF9100";
     value = 68;
   } else if (result === "Good") {
-    bgColor = "#94C120";
+    // bgColor = "#94C120";
     value = 98;
   } else {
-    bgColor = "#EA4E1B";
+    // bgColor = "#EA4E1B";
   }
 
   return (
@@ -480,13 +490,13 @@ function HomePage() {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                position: "fixed ",
-                background: "hsl(0, 0%, 100%, 0.1)",
-                backdropFilter: "blur(0.3em)",
+                // position: "fixed ",
+                // background: "hsl(0, 0%, 100%, 0.1)",
+                // backdropFilter: "blur(0.3em)",
                 width: "95vw",
                 marginTop: "-14px",
                 padding: "0",
-                marginLeft: "-9px",
+                marginLeft: "9px",
                 borderRadius: "5px",
                 // alignItems: "start",
                 // top: 0,
@@ -503,6 +513,8 @@ function HomePage() {
                   color: "white",
                   // marginRight: "85px",
                   marginTop: "0px",
+                  marginTop: "5px",
+
                   fontSize: "25px",
                   fontWeight: "bold",
 
@@ -511,44 +523,40 @@ function HomePage() {
               >
                 {appname}
               </div>
-              {/* <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "80px",
-                  height: "80px",
-                  borderRadius: "50%",
-                  // backgroundColor: bgColor,
-                  color: "white",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >
-                {" "}
-                {sucess}
-              </div> */}
+
               <ReactSpeedometer
                 styles={{
                   marginTop: "0px",
                   marginBottom: "0px",
                   padding: "0",
+                  // boxShadow: "10px",
                 }}
+                shadowOpacity={0.4} // Set shadow opacity to 0.4
+                shadowBlur={4} // Set shadow blur radius to 4
+                shadowX={10} // Set horizontal shadow offset to 2
+                shadowY={10} // Set vertical shadow offset to 2
                 value={value} // the value to be shown on the speedometer
                 minValue={0} // the minimum value of the speedometer
                 maxValue={100} // the maximum value of the speedometer
                 width={200} // the width of the speedometer
                 height={125} // the height of the speedometer
                 needleColor="black" // the color of the needle
-                startColor="#E94A20" // the color of the start segment
-                endColor="#94C120" // the color of the end segment
+                startColor="#e92028" // the color of the start segment
+                endColor="#41ba0b" // the color of the end segment
                 segments={5} // the number of segments on the speedometer
                 textColor="black" // the color of the text labels
-                needleTransitionDuration={3336} // the duration of the needle transition animation
+                needleTransitionDuration={3330} // the duration of the needle transition animation
                 needleHeightRatio={0.5}
                 // valueTextVisibility={false}
                 needleTransition="easeElastic"
                 valueTextFontSize="0px"
+                // segmentColors={[
+                //   "#bf616a",
+                //   "#d08770",
+                //   "#ebcb8b",
+                //   "#a3be8c",
+                //   "#b48ead",
+                // ]}
                 customSegmentLabels={[
                   {
                     text: "NA",
@@ -589,7 +597,7 @@ function HomePage() {
                 flexWrap: "wrap",
                 gap: "4rem",
                 justifyContent: "center",
-                marginTop: "115px",
+                marginTop: "10px",
               }}
             >
               <div
