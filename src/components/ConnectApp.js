@@ -5,7 +5,7 @@ import { Button, CardMedia, Typography } from "@material-ui/core";
 import { Avatar, TextField, Link } from "@material-ui/core";
 import Modal from "react-modal";
 import ArrowBack from "@material-ui/icons/ArrowBackIos";
-
+import axios from "axios";
 import "./connect.css";
 const useStyles = makeStyles((theme) => ({
   fileInput: {
@@ -89,6 +89,17 @@ export default function ConnectData() {
     setApiID(newApiId);
     localStorage.setItem("apiId", newApiId);
   };
+  function validateCredentials(appId, apiKey) {
+    return axios
+      .post("/api/validate-credentials", { appId, apiKey })
+      .then((response) => {
+        return response.data.isValid;
+      })
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
+  }
   const handleConnectClick = () => {
     // setShowAlert(false);
 
@@ -96,7 +107,6 @@ export default function ConnectData() {
       window.location.href = "/home";
       // const apiKey = "YOUR_API_KEY";
       // const appId = "YOUR_APP_ID";
-
       // window.location.reload();
     }
 

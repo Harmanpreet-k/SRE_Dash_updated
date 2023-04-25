@@ -7,6 +7,7 @@ const Availibility = () => {
     xLabels: [],
     yLabels: [],
   });
+
   const getName = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");

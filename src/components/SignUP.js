@@ -14,7 +14,44 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import "./signup.css";
+// import { Alert } from "@mui/material/core";
+// import { Alert } from "@mui/material";
+// import Alert from "@mui/material/Alert";
+import { ThemeContext } from "styled-components";
+// import makeStyles from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
+// import alert
+const useStyles = makeStyles((theme) => ({
+  button: {
+    // backgroundColor: "#EE9949",
+
+    // color: "#5f3d1d",
+    // // backgroundColor: "#ffd330",
+    // display: "flex",
+    // justifyContent: "center",
+    // alignItems: "center",
+    // flex: 0.1,
+    // marginTop: theme.spacing(2),
+    // borderRadius: "5px",
+    // border: "4",
+    // height: "10px",
+    // fontWeight: "bold",
+    // boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
+    display: "inline-block",
+    backgroundColor: "#3f51b5",
+    color: "#fff",
+    padding: "10px 20px",
+    textDecoration: "none",
+    borderRadius: "5px",
+    width: "100%",
+    textAlign: "center",
+    "&:hover": {
+      backgroundColor: "#3f51b5",
+      color: "black",
+    },
+  },
+}));
 const Signup = () => {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
@@ -29,6 +66,15 @@ const Signup = () => {
   const [terms, setTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const classes = useStyles();
+
+  const isSubmitDisabled = !(
+    name &&
+    email &&
+    phone &&
+    password &&
+    confirmPassword
+  );
   const validateName = () => {
     const namePattern = /^[a-zA-Z]+$/;
     if (name.length === 0 || !namePattern.test(name)) {
@@ -84,38 +130,52 @@ const Signup = () => {
   const handleToggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
+
+    let result = await fetch("http://localhost:5000/register", {
+      method: "post",
+
+      body: JSON.stringify({ name, email, phone, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    result = await result.json();
+
+    console.warn(result);
+
+    if (result) {
+      // alert("Data saved succesfully");
       validateName() &&
-      validateEmail() &&
-      validatePhone() &&
-      validatePassword() &&
-      validateConfirmPassword()
-    ) {
-      // Create an object with input data
-      const userData = {
-        name,
-        email,
-        phone,
-        password,
-      };
+        validateEmail() &&
+        validatePhone() &&
+        validatePassword() &&
+        validateConfirmPassword();
+      alert("Data saved succesfully");
+      alert("signed up successfully");
 
-      // Retrieve existing data from localStorage or create an empty array
-      const storedData = localStorage.getItem("formData");
-      const formDataArray = storedData ? JSON.parse(storedData) : [];
-
-      // Add the new form data to the array
-      formDataArray.push(userData);
-
-      // Store the updated array in localStorage
-      localStorage.setItem("userData", JSON.stringify(formDataArray));
-
-      console.log("Form is valid");
       window.location.href = "/";
-    } else {
-      console.log("Form is invalid");
+      // setEmail("");
+
+      // setName("");
+      //
+      // setPhone("");
+
+      // setPassword("");
+
+      //  )
     }
+    // )
+    // {
+
+    //   alert("successfully signed up");
+    //   console.log("Form is valid");
+    //   window.location.href = "/";
+    // } else {
+    //   console.log("Form is invalid");
+    // }
   };
 
   const paperStyle = { padding: "40px 30px", width: 1000, margin: "30px auto" };
@@ -228,8 +288,19 @@ const Signup = () => {
               By registering, you confirm that you accept our Terms of service
               and Privacy Policy
             </Typography>
+            <Button
+              variant="contained"
+              // style={{
+
+              // }}
+              className={classes.button}
+              onClick={handleSubmit}
+              disabled={isSubmitDisabled}
+            >
+              Sign Up
+            </Button>
           </form>
-          <Link
+          {/* <Link
             style={{
               display: "inline-block",
               backgroundColor: "#3f51b5",
@@ -243,7 +314,7 @@ const Signup = () => {
             onClick={handleSubmit}
           >
             Sign in
-          </Link>
+          </Link> */}
           Already have an account ?<Link href="/">Login</Link>
         </Box>
       </Paper>

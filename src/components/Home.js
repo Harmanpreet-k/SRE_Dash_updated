@@ -244,7 +244,7 @@ function HomePage() {
         server = data.value.segments[0]["requests/count"].sum;
         // server = 100;
 
-        console.log(server, "server");
+        console.log(server, "server1");
 
         // localStorage.setItem("appname", appName);
       })
@@ -269,7 +269,7 @@ function HomePage() {
     .then((data) => {
       failed = data.value.segments[0]["requests/failed"].sum;
 
-      console.log(failed, "failed");
+      console.log(failed, "failed1");
     })
     .catch((error) => {
       console.error(error);
@@ -287,18 +287,10 @@ function HomePage() {
     })
 
     .then((data) => {
-      // avail = 100;
-      // console.log(data, "data");
-      // console.log(avail, "avail");
-      // console.log(typeof avail);
       avail =
         data.value.segments[0]["availabilityResults/availabilityPercentage"]
           .avg;
-      console.log(avail, "avail");
-      // avail = data.value.segments[0]["availabilityResults/availabilityPercentage"].avg;
-      //   response = 4000;
-
-      // console.log(response, "response");
+      console.log(avail, "avail1");
     })
     .catch((error) => {
       console.error(error);
@@ -320,17 +312,19 @@ function HomePage() {
       response = data.value.segments[0]["requests/duration"].avg;
       //   response = 4000;
 
-      console.log(response, "response");
+      console.log(response, "response1");
     })
     .catch((error) => {
       console.error(error);
     });
+
   req();
+
   setTimeout(() => {
     sucess = ((server - failed) / server) * 100;
     // sucess = 50;
 
-    console.log(sucess, "sucess");
+    console.log(sucess, "sucess1");
   }, 2000);
 
   //   var i = 0;
@@ -365,7 +359,7 @@ function HomePage() {
   ReliabilityScore();
 
   const result = localStorage.getItem("score");
-  console.log(result, "res");
+  console.log(result, "res1");
   let bgColor = "";
   let value = 8; // default value
   // Determine the background color based on the score
@@ -597,7 +591,7 @@ function HomePage() {
                 flexWrap: "wrap",
                 gap: "4rem",
                 justifyContent: "center",
-                marginTop: "10px",
+                marginTop: "1px",
               }}
             >
               <div
