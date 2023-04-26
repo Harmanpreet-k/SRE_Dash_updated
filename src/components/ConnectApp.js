@@ -89,30 +89,29 @@ export default function ConnectData() {
     setApiID(newApiId);
     localStorage.setItem("apiId", newApiId);
   };
-  function validateCredentials(appId, apiKey) {
-    return axios
-      .post("/api/validate-credentials", { appId, apiKey })
-      .then((response) => {
-        return response.data.isValid;
-      })
-      .catch((error) => {
-        console.error(error);
-        return false;
-      });
-  }
-  const handleConnectClick = () => {
-    // setShowAlert(false);
 
+  const handleConnectClick = async (e) => {
+    window.location.href = "/home";
+
+    e.preventDefault();
+    console.log(apiKey, apiID);
     if (apiKey.trim() !== "") {
-      window.location.href = "/home";
-      // const apiKey = "YOUR_API_KEY";
-      // const appId = "YOUR_APP_ID";
-      // window.location.reload();
+      let result = await fetch("http://localhost:5000/update", {
+        method: "post",
+        body: JSON.stringify({ apiKey, apiID }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data, "data");
+        });
+
+      result = await result;
+
+      console.log(result);
     }
-
-    // alert("analysing your app");
-
-    // setShowAlert(false);
 
     localStorage.setItem("display", false);
   };

@@ -18,6 +18,16 @@ mongoose
     console.log(err);
   });
 
+const LoggedUserSchema = new mongoose.Schema({
+  email: {
+    type: String, // required: true, // unique: true,
+  },
+});
+
+const LoggedUser = mongoose.model("loggedUser", LoggedUserSchema);
+
+LoggedUser.createIndexes();
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String, // required: true,
@@ -32,6 +42,13 @@ const UserSchema = new mongoose.Schema({
   },
 
   password: {
+    type: String,
+  },
+
+  apikey: {
+    type: String,
+  },
+  apiid: {
     type: String,
   },
 });
@@ -88,20 +105,108 @@ app.post("/login", async (req, res) => {
 
         if (userData != undefined && userData != null) {
           if (userData.password == user.password) {
-            // res.status(200).json;
-            res.render("valid user");
-            // return "Valid User";
-            //  res.status(200).send("Valid User");
+            res.send({ msg: "valid user" });
+          } else {
+            console.log("hi");
+            res.send({ msg: "invalid user" });
           }
         }
       })
 
       .catch((err) => {
-        res.send();
-        // return res.status(420).send("Valid User");
+        res.send({ msg: "invalid user" });
       });
   } catch (e) {
-    res.send("Somthing Wrong");
+    res.send({ msg: "invalid credentials" });
   }
+});
+
+app.post("/loggeduser", async (req, resp) => {
+  try {
+    const user = new LoggedUser(req.body);
+
+    let result = await user.save();
+
+    result = result.toObject();
+
+    if (result) {
+      delete result.password;
+
+      resp.send(req.body);
+
+      console.log(result);
+    } else {
+      console.log("User already register");
+    }
+  } catch (e) {
+    resp.send("Something Went Wrong");
+  }
+});
+
+let Data;
+app.get("/loggeduser", async (req, resp) => {
+  try {
+    LoggedUser.find({}).then((data) => {
+      console.log(data, "loggeddata");
+      Data = data[0].email;
+      console.log(Data);
+      resp.json({ msg: Data });
+      // return Data;
+    });
+  } catch (e) {
+    resp.send();
+  }
+});
+
+app.post("/update", async (req, resp) => {
+  try {
+    let result = await User.findOneAndUpdate(
+      { email: "h@gmail.com" }, // Query criteria
+      { apikey: req.body.apiKey, apiid: req.body.apiID }, // Update fields
+      { new: true } // Return the updated document
+    );
+
+    if (result) {
+      // Save the updated document
+      await result.save();
+
+      // Access the updated values
+      console.log("Updated User: ", result);
+      console.log("Updated apikey: ", result.apikey);
+      console.log("Updated apiid: ", result.apiid);
+
+      resp.send(result); // Send the updated document as response
+    } else {
+      console.log("User not found");
+    }
+  } catch (e) {
+    resp.send("Something Went Wrong");
+  }
+
+  // let result = await User.findOneAndUpdate(
+  //   { email: "h@gmail.com" }, // Query criteria
+  //   { apikey: req.body.apiKey, apiid: req.body.apiID }, // Update fields
+  //   { new: true } // Return the updated document
+  // );
+  // try {
+  //   let result = await User.findOneAndUpdate(
+  //     { email: "h@gmail.com" }, // Query criteria
+  //     { apikey: req.body.apiKey, apiid: req.body.apiID }, // Update fields
+  //     { new: true } // Return the updated document
+  //   );
+  //   if (result) {
+  //     // Save the updated document
+  //     await result.save();
+  //     // Access the updated values
+  //     console.log("Updated User: ", result);
+  //     console.log("Updated apikey: ", result.apikey);
+  //     console.log("Updated apiid: ", result.apiid);
+  //     resp.send(result); // Send the updated document as response
+  //   } else {
+  //     console.log("User not found");
+  //   }
+  // } catch (e) {
+  //   resp.send("Something Went Wrong");
+  // }
 });
 app.listen(5000);

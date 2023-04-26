@@ -120,25 +120,58 @@ const Login = () => {
     // console.log("hi");
     let status = 404;
 
-    let result = await fetch("http://localhost:5000/login", {
-      method: "post",
-
-      body: JSON.stringify({ email, password }),
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      crossDomain: true,
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
-    });
-    status = result.status;
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "userRegister");
+        if (data.msg == "valid user") {
+          alert("login successful");
 
-    if (status == 200) {
-      // window.location.href = "/home";
-    } else if (status == 404) {
-      setError("Incorrect username or password.");
-      console.log("in");
-    }
-    // result = await result;
-    console.log("hi");
-    console.log(result, "result");
+          window.location.href = "/home";
+          localStorage.setItem("display", true);
+        } else {
+          // alert("invalid credentials");
+          setError("Incorrect username or password.");
+        }
+      });
+
+    fetch("http://localhost:5000/loggeduser", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "userRegister");
+        if (data.msg == "valid user") {
+          alert("login successful");
+
+          window.location.href = "/home";
+          localStorage.setItem("display", true);
+        } else {
+          // alert("invalid credentials");
+          setError("Incorrect username or password.");
+        }
+      });
   };
 
   return (

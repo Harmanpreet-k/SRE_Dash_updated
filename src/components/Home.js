@@ -168,7 +168,9 @@ function HomePage() {
   useEffect(() => {
     setTimeout(() => {
       const retrievedAppname = localStorage.getItem("appname");
-      setAppname(retrievedAppname || ""); // Update appname state with retrieved value or empty string
+      const eliminatedAppName = retrievedAppname.replace(/\d+$/, "");
+      console.log("Eliminated app name:", eliminatedAppName);
+      setAppname(eliminatedAppName || ""); // Update appname state with retrieved value or empty string
       // window.location.reload();
     }, 1000);
   }, []);
@@ -493,6 +495,7 @@ function HomePage() {
                 marginLeft: "9px",
                 borderRadius: "5px",
                 // alignItems: "start",
+                marginBottom: "-17px",
                 // top: 0,
                 // boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
               }}
@@ -507,7 +510,7 @@ function HomePage() {
                   color: "white",
                   // marginRight: "85px",
                   marginTop: "0px",
-                  marginTop: "5px",
+                  // marginTop: "5px",
 
                   fontSize: "25px",
                   fontWeight: "bold",
@@ -521,9 +524,8 @@ function HomePage() {
               <ReactSpeedometer
                 styles={{
                   marginTop: "0px",
-                  marginBottom: "0px",
+                  marginBottom: "-300px",
                   padding: "0",
-                  // boxShadow: "10px",
                 }}
                 shadowOpacity={0.4} // Set shadow opacity to 0.4
                 shadowBlur={4} // Set shadow blur radius to 4
@@ -541,16 +543,8 @@ function HomePage() {
                 textColor="black" // the color of the text labels
                 needleTransitionDuration={3330} // the duration of the needle transition animation
                 needleHeightRatio={0.5}
-                // valueTextVisibility={false}
                 needleTransition="easeElastic"
                 valueTextFontSize="0px"
-                // segmentColors={[
-                //   "#bf616a",
-                //   "#d08770",
-                //   "#ebcb8b",
-                //   "#a3be8c",
-                //   "#b48ead",
-                // ]}
                 customSegmentLabels={[
                   {
                     text: "NA",
@@ -585,6 +579,22 @@ function HomePage() {
                 ]}
               />
             </div>
+            <Typography
+              variant="poster"
+              style={{
+                marginLeft: "1070px",
+                marginTop: "0px",
+                padding: 0,
+                color: "white",
+                fontSize: "15px",
+                fontWeight: "bold",
+
+                textShadow: "2px 2px 3px rgba(0, 0, 0, 1)",
+              }}
+            >
+              Reliability Score
+            </Typography>
+
             <div
               style={{
                 display: "flex",

@@ -5,7 +5,7 @@
   /* overflow-y: auto; */
   }
   .data-background-image {
-    background-image: url("D:/SRE_DASHBOARD/sre_app/public/connectdata.jpg");
+    background-image: url("../photos/connectdata.jpg");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: left;

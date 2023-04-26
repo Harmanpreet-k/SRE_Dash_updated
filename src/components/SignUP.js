@@ -66,6 +66,9 @@ const Signup = () => {
   const [terms, setTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [apikey, setApikey] = useState("");
+  const [apiid, setApiid] = useState("");
+
   const classes = useStyles();
 
   const isSubmitDisabled = !(
@@ -136,7 +139,7 @@ const Signup = () => {
     let result = await fetch("http://localhost:5000/register", {
       method: "post",
 
-      body: JSON.stringify({ name, email, phone, password }),
+      body: JSON.stringify({ name, email, phone, password, apikey, apiid }),
       headers: {
         "Content-Type": "application/json",
       },
