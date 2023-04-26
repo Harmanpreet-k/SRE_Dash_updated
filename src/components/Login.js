@@ -9,6 +9,7 @@ import {
   Typography,
   Link,
 } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import "./login.css";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -18,6 +19,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { makeStyles } from "@material-ui/core/styles";
+import ConnectData from "./ConnectApp";
 
 // import alert
 const useStyles = makeStyles((theme) => ({
@@ -72,52 +74,12 @@ const Login = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const isSubmitDisabled = !(email && password);
   const classes = useStyles();
-
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   const handleLogin = async (e) => {
     e.preventDefault();
-    // console.log(email);
-    // Retrieve stored user data from localStorage
-    // const storedData = localStorage.getItem("userData");
-    // const userData = storedData ? JSON.parse(storedData) : null;
 
-    // userData.map((e) => {
-
-    //   if (!username || !password) {
-    //     setError("Please enter both username and password.");
-    //   } else {
-    //     if (userData) {
-
-    //       if (username === e.name && password === e.password) {
-    //         console.log("Login successful");
-    //         window.location.href = "/home";
-    //         localStorage.setItem("display", true);
-    //       } else {
-    //         console.log("Invalid username or password");
-    //         setError("Incorrect username or password.");
-    //       }
-    //     } else {
-    //       console.log("Form is invalid");
-    //     }
-    //   }
-    // });
-    //   let result = await fetch("http://localhost:5000/login", {
-    //     method: "post",
-
-    //     body: JSON.stringify({ email, password }),
-
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   });
-
-    //   result = await result.json();
-    //   console.warn(result);
-    //   // Validate form inputs
-    // };
-    // console.log("hi");
     let status = 404;
 
     fetch("http://localhost:5000/login", {
@@ -137,39 +99,30 @@ const Login = () => {
       .then((data) => {
         console.log(data, "userRegister");
         if (data.msg == "valid user") {
-          alert("login successful");
+          fetch("http://localhost:5000/loggeduser", {
+            method: "POST",
+            crossDomain: true,
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify({
+              email,
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data, "email");
+              // if (data.msg == "valid user") {
+              alert("login successful");
+              // dispatch(set_user(email));
 
-          window.location.href = "/home";
+              window.location.href = `/home/${data.email}`;
+              localStorage.setItem("display", true);
+            });
+
           localStorage.setItem("display", true);
-        } else {
-          // alert("invalid credentials");
-          setError("Incorrect username or password.");
-        }
-      });
-
-    fetch("http://localhost:5000/loggeduser", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data, "userRegister");
-        if (data.msg == "valid user") {
-          alert("login successful");
-
-          window.location.href = "/home";
-          localStorage.setItem("display", true);
-        } else {
-          // alert("invalid credentials");
-          setError("Incorrect username or password.");
         }
       });
   };

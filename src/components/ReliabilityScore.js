@@ -27,6 +27,20 @@ function ReliabilityScore() {
   let response;
   let sucess;
 
+  fetch("http://localhost:5000/loggeduser", {
+    method: "GET",
+    crossDomain: true,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.msg, "rel score email");
+    });
+
   const req = () => {
     fetch(
       `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/count?timespan=P1D&interval=PT24H`,

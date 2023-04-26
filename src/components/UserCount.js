@@ -3,7 +3,12 @@ import Chart from "chart.js/auto";
 import { Bar, Pie } from "react-chartjs-2";
 import { Doughnut } from "react-chartjs-2";
 import { PolarArea } from "react-chartjs-2";
+let new_data = {
+  xLabels: [],
+  yLabels: [],
+};
 const UserCount = () => {
+  const [loader, setLoader] = useState(true);
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -22,10 +27,7 @@ const UserCount = () => {
       .then((response) => response.json())
       .then((res) => {
         const data = res.value.segments;
-        const new_data = {
-          xLabels: [],
-          yLabels: [],
-        };
+
         // console.log("data received", data);
         data.forEach((d) => {
           new_data.xLabels.push(new Date(d.start).toDateString());
@@ -33,17 +35,25 @@ const UserCount = () => {
         });
         // console.log("final newData:", new_data);
         setChartData(new_data);
+        setLoader(false);
       })
       .catch((err) => console.log("error while fetching the data: ", err));
   };
-
+  const unique = (paramters) => {
+    var unique1 = paramters
+      .map((ar) => JSON.stringify(ar))
+      .filter((itm, idx, arr) => arr.indexOf(itm) === idx)
+      .map((str) => JSON.parse(str));
+    const datas = unique1;
+    return datas;
+  };
   useEffect(() => {
     // console.log("making fetch request");
     fetchChartData();
   }, []);
 
   const data = {
-    labels: chartData.xLabels,
+    labels: unique(new_data.xLabels),
     datasets: [
       {
         label: "User Counts",
@@ -68,13 +78,37 @@ const UserCount = () => {
         ],
         borderWidth: 1,
         hoverOffset: 4,
-        data: chartData.yLabels,
+        data: new_data.yLabels,
       },
     ],
   };
   return (
     <div style={{ height: "300px", widht: "300px", marginLeft: "90px" }}>
-      <Doughnut data={data} />
+      {loader ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>loading chart...</p>
+        </div>
+      ) : new_data.length === 0 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "60%",
+          }}
+        >
+          <p>No data available</p>
+        </div>
+      ) : (
+        <Doughnut data={data} />
+      )}
     </div>
   );
 };

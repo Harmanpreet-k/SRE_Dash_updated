@@ -25,7 +25,7 @@ function App() {
         <BrowserRouter forceRefresh={true}>
           <div>
             <Routes>
-              <Route path="/home" element={<HomePage />} />
+              <Route path="/home/:email" element={<HomePage />} />
               <Route path="/failed" element={<FailedReq />} />
               <Route path="/server" element={<ServerReq />} />
               <Route path="/connect" element={<ConnectData />} />

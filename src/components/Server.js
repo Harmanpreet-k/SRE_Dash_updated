@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+let Data = null;
 
 mongoose
   .connect(
@@ -28,6 +29,14 @@ const LoggedUser = mongoose.model("loggedUser", LoggedUserSchema);
 
 LoggedUser.createIndexes();
 
+const Api = new mongoose.Schema({
+  apikey: {
+    type: String, // required: true, // unique: true,
+  },
+  apiid: {
+    type: String,
+  },
+});
 const UserSchema = new mongoose.Schema({
   name: {
     type: String, // required: true,
@@ -44,13 +53,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-
-  apikey: {
-    type: String,
-  },
-  apiid: {
-    type: String,
-  },
+  api: [Api],
 });
 
 const User = mongoose.model("users", UserSchema);
@@ -78,6 +81,8 @@ app.get("/", (req, resp) => {
 app.post("/register", async (req, resp) => {
   try {
     const user = new User(req.body);
+    // user.name = req.body.name;
+    // console.log(user, "user");
 
     let result = await user.save();
 
@@ -143,13 +148,12 @@ app.post("/loggeduser", async (req, resp) => {
   }
 });
 
-let Data;
 app.get("/loggeduser", async (req, resp) => {
   try {
     LoggedUser.find({}).then((data) => {
-      console.log(data, "loggeddata");
+      // console.log(data, "loggeddata");
       Data = data[0].email;
-      console.log(Data);
+      // console.log(Data);
       resp.json({ msg: Data });
       // return Data;
     });
@@ -158,19 +162,37 @@ app.get("/loggeduser", async (req, resp) => {
   }
 });
 
+app.post("/api", async (req, resp) => {
+  // console.log(req.body.email, "api1");
+  try {
+    let userData;
+    User.find({ email: req.body.email }).then((data) => {
+      userData = data;
+      const userDetails = [];
+      // console.log(userData[0]?.api, "api");
+      if (userData[0]?.api != undefined) {
+        userDetails.push(userData[0]?.api);
+      }
+      resp.json({ msg: userDetails });
+      console.log(userDetails, "userDetails");
+    });
+  } catch (e) {
+    resp.send();
+  }
+});
+
 app.post("/update", async (req, resp) => {
   try {
+    console.log(Data, "data2");
     let result = await User.findOneAndUpdate(
-      { email: "h@gmail.com" }, // Query criteria
-      { apikey: req.body.apiKey, apiid: req.body.apiID }, // Update fields
+      { email: req.body.email }, // Query criteria
+      { $push: { api: { apikey: req.body.apiKey, apiid: req.body.apiID } } }, // Update fields
       { new: true } // Return the updated document
     );
 
     if (result) {
-      // Save the updated document
       await result.save();
 
-      // Access the updated values
       console.log("Updated User: ", result);
       console.log("Updated apikey: ", result.apikey);
       console.log("Updated apiid: ", result.apiid);
@@ -182,31 +204,5 @@ app.post("/update", async (req, resp) => {
   } catch (e) {
     resp.send("Something Went Wrong");
   }
-
-  // let result = await User.findOneAndUpdate(
-  //   { email: "h@gmail.com" }, // Query criteria
-  //   { apikey: req.body.apiKey, apiid: req.body.apiID }, // Update fields
-  //   { new: true } // Return the updated document
-  // );
-  // try {
-  //   let result = await User.findOneAndUpdate(
-  //     { email: "h@gmail.com" }, // Query criteria
-  //     { apikey: req.body.apiKey, apiid: req.body.apiID }, // Update fields
-  //     { new: true } // Return the updated document
-  //   );
-  //   if (result) {
-  //     // Save the updated document
-  //     await result.save();
-  //     // Access the updated values
-  //     console.log("Updated User: ", result);
-  //     console.log("Updated apikey: ", result.apikey);
-  //     console.log("Updated apiid: ", result.apiid);
-  //     resp.send(result); // Send the updated document as response
-  //   } else {
-  //     console.log("User not found");
-  //   }
-  // } catch (e) {
-  //   resp.send("Something Went Wrong");
-  // }
 });
 app.listen(5000);

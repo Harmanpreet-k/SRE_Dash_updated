@@ -22,6 +22,9 @@ import FailedReq from "./FailedReq";
 import Availibility from "./Availibility";
 // import Box from "@material-ui/core";
 import ReactSpeedometer from "react-d3-speedometer";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Select, MenuItem, FormControl, InputLabel } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -164,12 +167,16 @@ const useStyles = makeStyles((theme) => ({
 function HomePage() {
   const [appname, setAppname] = useState("");
   const [score, setScore] = useState("");
+  const [selectedValue, setSelectedValue] = useState(""); // State to store selected value
 
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value); // Update selected value in state
+  };
   useEffect(() => {
     setTimeout(() => {
       const retrievedAppname = localStorage.getItem("appname");
       const eliminatedAppName = retrievedAppname.replace(/\d+$/, "");
-      console.log("Eliminated app name:", eliminatedAppName);
+      console.log("App name:", eliminatedAppName);
       setAppname(eliminatedAppName || ""); // Update appname state with retrieved value or empty string
       // window.location.reload();
     }, 1000);
@@ -188,11 +195,40 @@ function HomePage() {
   //   const [display, setDisplay] = useState(false);
   const [apiID, setApiID] = useState("");
   const [apiKey, setApiKey] = useState("");
+  const [email, setEmail] = useState("");
   const isSubmitDisabled = !(apiKey && apiID);
-  const handleConnectClick = () => {
+  const { params } = useParams();
+  const queryParameters = new URLSearchParams(window.location.search);
+  const location = useLocation();
+  // const email = queryParameters.get("email");
+
+  const handleConnectClick = async (e) => {
+    setEmail(location.pathname.split("/")[2].slice(0));
+
+    e.preventDefault();
+    console.log(apiKey, apiID);
     if (apiKey.trim() !== "") {
-      window.location.href = "/home";
+      let result = await fetch("http://localhost:5000/update", {
+        method: "post",
+        body: JSON.stringify({ apiKey, apiID, email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data, "data");
+        });
+
+      result = await result;
+      // console.log(queryParameters, "query");
+      console.log(email, " email");
+      console.log("pathname", location.pathname.split("/")[2].slice(0));
+      // console.log({ params }, "data data");
+      window.location.href = `/home/${email}`;
+      console.log(result);
     }
+
     localStorage.setItem("display", false);
   };
 
@@ -206,6 +242,14 @@ function HomePage() {
     const newApiId = event.target.value;
     setApiID(newApiId);
     localStorage.setItem("apiId", newApiId);
+  };
+  const handleButtonClick = () => {
+    setEmail((prevEmail) => {
+      const newEmail = location.pathname.split("/")[2].slice(0);
+      console.log(newEmail, "mail mail");
+      window.location.href = `/connect/${newEmail}`;
+      return newEmail;
+    });
   };
   const avatarStyle = { backgroundColor: "Black" };
   const handleDrawerOpen = () => {
@@ -465,9 +509,9 @@ function HomePage() {
           <div className={classes.contentText}>
             <Button
               variant="contained"
-              href="/Connect"
+              // href={`/Connect/${email}`}
+              onClick={handleButtonClick}
               className={classes.button}
-              //   className="btn btn-primary rounded"
             >
               ADD APP
             </Button>
@@ -520,6 +564,21 @@ function HomePage() {
               >
                 {appname}
               </div>
+              <FormControl fullWidth variant="outlined" size="small">
+                <InputLabel htmlFor="dropdown">Select an option</InputLabel>
+                <Select
+                  id="dropdown"
+                  label="Select an option"
+                  value={selectedValue}
+                  onChange={handleChange}
+                  labelWidth={120}
+                  size="small" // Set the size to small
+                >
+                  <MenuItem value="option1">Option 1</MenuItem>
+                  <MenuItem value="option2">Option 2</MenuItem>
+                  <MenuItem value="option3">Option 3</MenuItem>
+                </Select>
+              </FormControl>
 
               <ReactSpeedometer
                 styles={{

@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import ArrowBack from "@material-ui/icons/ArrowBackIos";
 import axios from "axios";
 import "./connect.css";
+import { useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   fileInput: {
     display: "none",
@@ -70,15 +71,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ConnectData() {
-  const navigate = useNavigate();
-
   const avatarStyle = { backgroundColor: "Black" };
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
   const [apiID, setApiID] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-  const [validationResult, setValidationResult] = useState("");
+
   const isSubmitDisabled = !(apiKey && apiID);
+  const [email, setEmail] = useState("");
+  const location = useLocation();
   const handleApiKeyChange = (event) => {
     const newApiKey = event.target.value;
     setApiKey(newApiKey);
@@ -91,14 +91,14 @@ export default function ConnectData() {
   };
 
   const handleConnectClick = async (e) => {
-    window.location.href = "/home";
+    setEmail(location.pathname.split("/")[2].slice(0));
 
     e.preventDefault();
     console.log(apiKey, apiID);
     if (apiKey.trim() !== "") {
       let result = await fetch("http://localhost:5000/update", {
         method: "post",
-        body: JSON.stringify({ apiKey, apiID }),
+        body: JSON.stringify({ apiKey, apiID, email }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -109,6 +109,11 @@ export default function ConnectData() {
         });
 
       result = await result;
+      // console.log(queryParameters, "query");
+      console.log(email, " email");
+      console.log("pathname", location.pathname.split("/")[2].slice(0));
+      // console.log({ params }, "data data");
+      window.location.href = `/home/${email}`;
 
       console.log(result);
     }
@@ -119,7 +124,7 @@ export default function ConnectData() {
   return (
     <div className="body">
       <div className={classes.header}>
-        <Link href="/Home">
+        <Link href="/home/:email">
           <ArrowBack style={{ color: "white", marginRight: "10px" }} />
         </Link>
         <Typography align="left" variant="h6" className={classes.title}>
