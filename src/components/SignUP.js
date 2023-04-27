@@ -24,19 +24,6 @@ import { makeStyles } from "@material-ui/core/styles";
 // import alert
 const useStyles = makeStyles((theme) => ({
   button: {
-    // backgroundColor: "#EE9949",
-
-    // color: "#5f3d1d",
-    // // backgroundColor: "#ffd330",
-    // display: "flex",
-    // justifyContent: "center",
-    // alignItems: "center",
-    // flex: 0.1,
-    // marginTop: theme.spacing(2),
-    // borderRadius: "5px",
-    // border: "4",
-    // height: "10px",
-    // fontWeight: "bold",
     // boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
     display: "inline-block",
     backgroundColor: "#3f51b5",
@@ -68,7 +55,8 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apikey, setApikey] = useState("");
   const [apiid, setApiid] = useState("");
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const classes = useStyles();
 
   const isSubmitDisabled = !(
@@ -148,6 +136,7 @@ const Signup = () => {
     result = await result.json();
 
     console.warn(result);
+
     if (!validateEmail()) {
       setEmailError("Enter a valid emailId");
     }
@@ -163,16 +152,19 @@ const Signup = () => {
     if (!validatePhone()) {
       setPhoneError();
     } else if (result) {
-      // alert("Data saved succesfully");
       validateName() &&
         validateEmail() &&
         validatePhone() &&
         validatePassword() &&
         validateConfirmPassword();
-      alert("Data saved succesfully");
-      alert("signed up successfully");
+      // alert("Data saved succesfully");
+      setSuccessMessage("Signup successful!!");
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
+      // alert("signed up successfully");
 
-      window.location.href = "/";
       // setEmail("");
 
       // setName("");
@@ -194,7 +186,7 @@ const Signup = () => {
     // }
   };
 
-  const paperStyle = { padding: "40px 30px", width: 1000, margin: "30px auto" };
+  const paperStyle = { padding: "40px 30px", width: 1000, margin: "15px auto" };
   const headerStyle = { margin: 0 };
   const avatarStyle = { backgroundColor: "#90CAF9" };
   // const marginTop = { marginTop: 5 };
@@ -315,6 +307,19 @@ const Signup = () => {
             >
               Sign Up
             </Button>
+            {showSuccessMessage && (
+              <div
+                className="success-message"
+                style={{
+                  color: "green",
+                  marginTop: "9px",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                {successMessage}
+              </div>
+            )}
           </form>
           {/* <Link
             style={{

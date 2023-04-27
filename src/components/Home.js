@@ -197,8 +197,6 @@ function HomePage() {
   const [apiKey, setApiKey] = useState("");
   const [email, setEmail] = useState("");
   const isSubmitDisabled = !(apiKey && apiID);
-  const { params } = useParams();
-  const queryParameters = new URLSearchParams(window.location.search);
   const location = useLocation();
   // const email = queryParameters.get("email");
 
@@ -564,19 +562,36 @@ function HomePage() {
               >
                 {appname}
               </div>
-              <FormControl fullWidth variant="outlined" size="small">
-                <InputLabel htmlFor="dropdown">Select an option</InputLabel>
+              <FormControl
+                fullWidth
+                variant="outlined"
+                size="small"
+                style={{
+                  width: "150px",
+                  marginTop: "80px",
+                  marginLeft: "0px",
+                  marginRight: "-28px",
+                }}
+              >
+                <InputLabel
+                  htmlFor="dropdown"
+                  style={{
+                    marginTop: "3px",
+                  }}
+                >
+                  Filter
+                </InputLabel>
                 <Select
                   id="dropdown"
-                  label="Select an option"
+                  label="Filter"
                   value={selectedValue}
                   onChange={handleChange}
                   labelWidth={120}
                   size="small" // Set the size to small
                 >
-                  <MenuItem value="option1">Option 1</MenuItem>
-                  <MenuItem value="option2">Option 2</MenuItem>
-                  <MenuItem value="option3">Option 3</MenuItem>
+                  <MenuItem value="option1">30D</MenuItem>
+                  <MenuItem value="option2">1D</MenuItem>
+                  <MenuItem value="option3">1H</MenuItem>
                 </Select>
               </FormControl>
 

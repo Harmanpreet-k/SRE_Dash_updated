@@ -169,7 +169,7 @@ app.post("/api", async (req, resp) => {
       if (userData[0]?.api != undefined) {
         userDetails.push(userData[0]?.api);
       }
-      resp.json({ msg: userDetails });
+      resp.send({ msg: userDetails });
       console.log(userDetails, "userDetails");
     });
   } catch (e) {

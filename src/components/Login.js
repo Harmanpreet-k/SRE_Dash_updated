@@ -58,6 +58,8 @@ const Login = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const isSubmitDisabled = !(email && password);
   const classes = useStyles();
   const handleTogglePasswordVisibility = () => {
@@ -101,7 +103,7 @@ const Login = () => {
             .then(async (data) => {
               console.log(data, "email");
               // if (data.msg == "valid user") {
-              alert("login successful");
+              // alert("login successful");
               // dispatch(set_user(email));
               try {
                 const response = await fetch(
@@ -121,7 +123,11 @@ const Login = () => {
                     console.log(data.msg, "dataa");
                     // setLoggedmail(data.msg);
                     // console.log(loggedmail, "eee");
-                    window.location.href = `/home/${data.msg}`;
+                    setSuccessMessage("Login successful!!");
+                    setShowSuccessMessage(true);
+                    setTimeout(() => {
+                      window.location.href = `/home/${data.msg}`;
+                    }, 2000);
                   });
               } catch (err) {
                 console.log(err);
@@ -206,6 +212,19 @@ const Login = () => {
             >
               Sign In
             </Button>
+            {showSuccessMessage && (
+              <div
+                className="success-message"
+                style={{
+                  color: "green",
+                  marginTop: "9px",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                {successMessage}
+              </div>
+            )}
           </form>
           {/* <Link
             // href="#"

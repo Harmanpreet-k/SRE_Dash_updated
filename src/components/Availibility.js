@@ -8,6 +8,7 @@ let new_data = {
 const Availibility = () => {
   const [loader, setLoader] = useState(true);
   const [email, setEmail] = useState("");
+  const [api, setApi] = useState("");
   const [chartData, setChartData] = useState({
     xLabels: [],
     yLabels: [],
@@ -47,16 +48,25 @@ const Availibility = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(email, "mail mail");
-        console.log(data, "daaaaaaaataaa");
-        // array = [];
-        array.push(data.msg[0]);
-        // console.log(array, "arr");
+        let data6 = [];
+        data6 = data.msg[0];
+        console.log(data6.length, "dttttt");
+        // array.push(data6[0]);
+        // console.log(array, "arr1");
+        data6.map((e) => {
+          // console.log(e);
+          array.push(e);
+          // setApi(e);
+        });
+        console.log(array[0], "arr1");
+        // array[0] = data.msg[0][0];
       });
 
     const ApiKey = localStorage.getItem("apiKey");
-
     console.log(array, "arr");
+    // array.map((e) => {
+    //   console.log(e, "e");
+    // });
 
     const ApiId = localStorage.getItem("apiId");
     fetch(`https://api.applicationinsights.io/v1/apps/${ApiId}/metaData`, {

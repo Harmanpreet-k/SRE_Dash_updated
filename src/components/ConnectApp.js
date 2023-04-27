@@ -90,6 +90,7 @@ export default function ConnectData() {
     localStorage.setItem("apiId", newApiId);
   };
 
+  // getUsersData();
   const handleConnectClick = async (e) => {
     setEmail(location.pathname.split("/")[2].slice(0));
 

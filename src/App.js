@@ -28,7 +28,7 @@ function App() {
               <Route path="/home/:email" element={<HomePage />} />
               <Route path="/failed" element={<FailedReq />} />
               <Route path="/server" element={<ServerReq />} />
-              <Route path="/connect" element={<ConnectData />} />
+              <Route path="/connect/:email" element={<ConnectData />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/" element={<Login />} />
               <Route path="/reliability" element={<ReliabilityScore />} />
