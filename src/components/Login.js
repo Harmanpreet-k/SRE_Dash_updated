@@ -24,20 +24,6 @@ import ConnectData from "./ConnectApp";
 // import alert
 const useStyles = makeStyles((theme) => ({
   button: {
-    // backgroundColor: "#EE9949",
-
-    // color: "#5f3d1d",
-    // // backgroundColor: "#ffd330",
-    // display: "flex",
-    // justifyContent: "center",
-    // alignItems: "center",
-    // flex: 0.1,
-    // marginTop: theme.spacing(2),
-    // borderRadius: "5px",
-    // border: "4",
-    // height: "10px",
-    // fontWeight: "bold",
-    // boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
     display: "inline-block",
     backgroundColor: "#3f51b5",
     color: "#fff",
@@ -67,7 +53,7 @@ const Login = () => {
   const avatarStyle = { backgroundColor: "#90CAF9" };
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-
+  const [loggedmail, setLoggedmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -112,13 +98,36 @@ const Login = () => {
             }),
           })
             .then((res) => res.json())
-            .then((data) => {
+            .then(async (data) => {
               console.log(data, "email");
               // if (data.msg == "valid user") {
               alert("login successful");
               // dispatch(set_user(email));
+              try {
+                const response = await fetch(
+                  "http://localhost:5000/loggeduser",
+                  {
+                    method: "GET",
+                    crossDomain: true,
+                    headers: {
+                      "Content-Type": "application/json",
+                      Accept: "application/json",
+                      "Access-Control-Allow-Origin": "*",
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data.msg, "dataa");
+                    // setLoggedmail(data.msg);
+                    // console.log(loggedmail, "eee");
+                    window.location.href = `/home/${data.msg}`;
+                  });
+              } catch (err) {
+                console.log(err);
+                setError("Incorrect username or password.");
+              }
 
-              window.location.href = `/home/${data.email}`;
               localStorage.setItem("display", true);
             });
 

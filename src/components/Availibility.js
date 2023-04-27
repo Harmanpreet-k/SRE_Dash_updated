@@ -12,8 +12,9 @@ const Availibility = () => {
     xLabels: [],
     yLabels: [],
   });
-
   const getName = async () => {
+    let array = [];
+
     try {
       const response = await fetch("http://localhost:5000/loggeduser", {
         method: "GET",
@@ -28,25 +29,6 @@ const Availibility = () => {
       const data = await response.json();
       const e = data.msg;
       setEmail(e);
-      // fetch("http://localhost:5000/api", {
-      //   method: "POST",
-      //   crossDomain: true,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Accept: "application/json",
-      //     "Access-Control-Allow-Origin": "*",
-      //   },
-      //   body: JSON.stringify({
-      //     e,
-      //   }),
-      // });
-
-      // const data1 = await response.json();
-      // // const e = data.msg;
-      // // setEmail(e);
-      // console.log(email, "avail2 email");
-
-      // console.log(e, "avail email");
     } catch (error) {
       console.error(error);
     }
@@ -65,13 +47,17 @@ const Availibility = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.msg[0], "dataaaaa0000");
-        let array = [];
+        console.log(email, "mail mail");
+        console.log(data, "daaaaaaaataaa");
+        // array = [];
         array.push(data.msg[0]);
-        console.log(array, "arr");
+        // console.log(array, "arr");
       });
 
     const ApiKey = localStorage.getItem("apiKey");
+
+    console.log(array, "arr");
+
     const ApiId = localStorage.getItem("apiId");
     fetch(`https://api.applicationinsights.io/v1/apps/${ApiId}/metaData`, {
       headers: {

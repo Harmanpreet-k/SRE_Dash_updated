@@ -148,8 +148,21 @@ const Signup = () => {
     result = await result.json();
 
     console.warn(result);
-
-    if (result) {
+    if (!validateEmail()) {
+      setEmailError("Enter a valid emailId");
+    }
+    if (!validatePassword()) {
+      setPasswordError("Enter a valid emailId");
+    }
+    if (!validateName()) {
+      setNameError("Enter a valid name");
+    }
+    if (!validateConfirmPassword()) {
+      setNameError();
+    }
+    if (!validatePhone()) {
+      setPhoneError();
+    } else if (result) {
       // alert("Data saved succesfully");
       validateName() &&
         validateEmail() &&

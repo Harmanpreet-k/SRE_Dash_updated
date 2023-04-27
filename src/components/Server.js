@@ -128,10 +128,11 @@ app.post("/login", async (req, res) => {
 
 app.post("/loggeduser", async (req, resp) => {
   try {
-    const user = new LoggedUser(req.body);
-
-    let result = await user.save();
-
+    // const user = new LoggedUser();
+    const result = await LoggedUser.findByIdAndUpdate(
+      "644a04441212e81be338be9a",
+      { $set: { email: req.body.email } }
+    );
     result = result.toObject();
 
     if (result) {
@@ -141,25 +142,20 @@ app.post("/loggeduser", async (req, resp) => {
 
       console.log(result);
     } else {
-      console.log("User already register");
+      // console.log("User already ");
     }
   } catch (e) {
-    resp.send("Something Went Wrong");
+    resp.status(500).send({ error: "Updated" });
   }
 });
 
 app.get("/loggeduser", async (req, resp) => {
-  try {
-    LoggedUser.find({}).then((data) => {
-      // console.log(data, "loggeddata");
-      Data = data[0].email;
-      // console.log(Data);
-      resp.json({ msg: Data });
-      // return Data;
-    });
-  } catch (e) {
-    resp.send();
-  }
+  console.log("inside");
+  LoggedUser.findById("644a04441212e81be338be9a").then((data) => {
+    console.log(data, "loggeddata");
+    const email = data.email;
+    resp.json({ msg: email });
+  });
 });
 
 app.post("/api", async (req, resp) => {
