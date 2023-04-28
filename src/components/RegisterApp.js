@@ -75,6 +75,7 @@ export default function RegisterApp() {
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
   const [apiID, setApiID] = useState("");
+  const [appName, setAppName] = useState("");
 
   const isSubmitDisabled = !(apiKey && apiID);
   const [email, setEmail] = useState("");
@@ -89,17 +90,21 @@ export default function RegisterApp() {
     setApiID(newApiId);
     localStorage.setItem("apiId", newApiId);
   };
-
+  const handleAppNameChange = (event) => {
+    const newAppname = event.target.value;
+    setAppName(newAppname);
+    localStorage.setItem("appname", newAppname);
+  };
   // getUsersData();
   const handleConnectClick = async (e) => {
-    // setEmail(location.pathname);
+    setEmail(location.pathname.split("/")[2].slice(0));
 
     e.preventDefault();
-    console.log(apiKey, apiID);
+    console.log(apiKey, apiID, appName);
     if (apiKey.trim() !== "") {
       let result = await fetch("http://localhost:5000/update", {
         method: "post",
-        body: JSON.stringify({ apiKey, apiID, email }),
+        body: JSON.stringify({ apiKey, apiID, email, appName }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -114,7 +119,7 @@ export default function RegisterApp() {
       console.log(email, " email");
       console.log("pathname", location.pathname.split("/")[2].slice(0));
       // console.log({ params }, "data data");
-      window.location.href = `/home/${email}`;
+      window.location.href = `/connect/${email}`;
 
       console.log(result);
     }
@@ -169,7 +174,7 @@ export default function RegisterApp() {
             // marginBottom: "70%",
           }}
         >
-          {/* <TextField
+          <TextField
             label="Enter APP Name "
             // variant="outlined"
             required
@@ -177,9 +182,9 @@ export default function RegisterApp() {
               width: "70%",
               marginTop: "20px",
             }}
-            // value={apiKey}
-            // onChange={handleApiKeyChange}
-          /> */}
+            value={appName}
+            onChange={handleAppNameChange}
+          />
           <TextField
             label="Enter API key "
             // variant="outlined"

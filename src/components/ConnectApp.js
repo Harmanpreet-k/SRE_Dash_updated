@@ -90,37 +90,44 @@ export default function ConnectData() {
     localStorage.setItem("apiKey", newApiKey);
   };
   const handleApiIdChange = (event) => {
-    const newApiId = event.target.value;
+    const newApiId = event.target.value.split(",")[1];
     setApiID(newApiId);
+    const newAppName = event.target.value.split(",")[0];
+    // alert(event.target.value.split(",")[0]);
+    localStorage.setItem("appname", newAppName);
+
     localStorage.setItem("apiId", newApiId);
+    setAppname(newAppName);
+    // alert(newApiId);
+
+    // localStorage.setItem("appname", newAppName);
   };
 
-  // getUsersData();
-  const handleConnectClick = async (e) => {
-    setEmail(location.pathname.split("/")[2].slice(0));
+  const handleRegisterClick = async (e) => {
+    setEmail((prevEmail) => {
+      const newEmail = location.pathname.split("/")[2].slice(0);
+      console.log(newEmail, "mail mail");
+      window.location.href = `/register/${newEmail}`;
+      return newEmail;
+    });
+  };
 
-    e.preventDefault();
-    console.log(apiKey, apiID);
-    if (apiKey.trim() !== "") {
-      try {
-        const result = await fetch("http://localhost:5000/update", {
-          method: "post",
-          body: JSON.stringify({ apiKey, apiID, email, appname }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await result.json();
-        console.log(data, "data");
-        console.log(email, " email");
-        console.log("pathname", location.pathname.split("/")[2].slice(0));
-        window.location.href = `/home/${email}`;
-        console.log(result);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    localStorage.setItem("display", false);
+  const handleConnectClick = async (e) => {
+    // setEmail(location.pathname.split("/")[2].slice(0));
+
+    // e.preventDefault();
+    // console.log(email);
+
+    // setTimeout(() => {
+    //   window.location.href = `/home/${email}`;
+    // }, 1000);
+
+    setEmail((prevEmail) => {
+      const newEmail = location.pathname.split("/")[2].slice(0);
+      console.log(newEmail, "mail mail");
+      window.location.href = `/home/${newEmail}`;
+      return newEmail;
+    });
   };
 
   const Apifun = async () => {
@@ -206,10 +213,17 @@ export default function ConnectData() {
                 marginLeft: "0px",
                 marginRight: "-28px",
               }}
-              value={apiID}
+              value={[apiID, appname]}
             >
+              {/* <option value="" disabled selected>
+                Select app name
+              </option> */}
               {apiData.map((e, index) => {
-                return <option value={e.apiid}>{e.apiid}</option>;
+                return (
+                  <option key={index} value={[e.appname, e.apiid]}>
+                    {e.appname}
+                  </option>
+                );
               })}
             </select>
           </div>
@@ -246,10 +260,10 @@ export default function ConnectData() {
           </Button>
           <Button
             variant="contained"
-            href="/register"
+            // href="/register"
             className={classes.button}
             // disabled={isSubmitDisabled}
-            // onClick={handleConnectClick}
+            onClick={handleRegisterClick}
           >
             Register New App
           </Button>

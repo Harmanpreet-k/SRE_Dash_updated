@@ -27,7 +27,7 @@ function App() {
           <div>
             <Routes>
               <Route path="/home/:email" element={<HomePage />} />
-              <Route path="/register" element={<RegisterApp />} />
+              <Route path="/register/:email" element={<RegisterApp />} />
 
               <Route path="/failed" element={<FailedReq />} />
               <Route path="/server" element={<ServerReq />} />

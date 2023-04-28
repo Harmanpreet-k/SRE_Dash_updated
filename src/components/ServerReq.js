@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import { Bar, Pie } from "react-chartjs-2";
 // import { ResetTv } from "@mui/icons-material";
+import Spinner from "./loading3.gif";
+
 const new_data = {
   xLabels: [],
   yLabels: [],
@@ -16,8 +18,9 @@ const ServerReq = () => {
   const fetchChartData = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
+    const Span = localStorage.getItem("Span");
     fetch(
-      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/count?timespan=P30D&interval=P1D`,
+      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/count?timespan=${Span}&interval=P1D`,
       {
         headers: {
           "x-api-key": `${ApiKey}`,
@@ -118,7 +121,6 @@ const ServerReq = () => {
     },
   };
   return (
-    // console.log("new data ...........(((((", data),
     <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
       {/* < /> */}
       {loader ? (
@@ -130,7 +132,7 @@ const ServerReq = () => {
             height: "60%",
           }}
         >
-          <p>loading chart...</p>
+          <img src={Spinner} alt="Spinner" />
         </div>
       ) : new_data.xLabels.length === 0 ? (
         <div

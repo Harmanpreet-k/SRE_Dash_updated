@@ -55,7 +55,7 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apikey, setApikey] = useState("");
   const [apiid, setApiid] = useState("");
-  const [apiname, setApiname] = useState("");
+  const [appname, setAppname] = useState("");
 
   const [successMessage, setSuccessMessage] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -136,7 +136,7 @@ const Signup = () => {
         password,
         apikey,
         apiid,
-        apiname,
+        appname,
       }),
       headers: {
         "Content-Type": "application/json",

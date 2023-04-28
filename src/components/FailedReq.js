@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
+import Spinner from "./loading3.gif";
+
 let new_data = {
   xLabels: [],
   yLabels: [],
@@ -14,8 +16,9 @@ const FailedReq = () => {
   const fetchChartData = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
+    const Span = localStorage.getItem("Span");
     fetch(
-      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/failed?timespan=P30D&interval=P1D`,
+      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/failed?timespan=${Span}&interval=P1D`,
       {
         headers: {
           "x-api-key": `${ApiKey}`,
@@ -90,7 +93,7 @@ const FailedReq = () => {
             height: "60%",
           }}
         >
-          <p>loading chart...</p>
+          <img src={Spinner} alt="Spinner" />
         </div>
       ) : new_data.yLabels.length === 0 ? (
         <div

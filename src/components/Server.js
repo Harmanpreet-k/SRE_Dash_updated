@@ -86,7 +86,7 @@ app.post("/register", async (req, resp) => {
   try {
     const user = new User(req.body);
     // user.name = req.body.name;
-    // console.log(user, "user");
+    console.log(req.body.appname, "user");
 
     let result = await user.save();
 
@@ -190,8 +190,9 @@ app.post("/api", async (req, resp) => {
 });
 
 app.post("/update", async (req, resp) => {
+  console.log(req.body.appName, "data2");
+
   try {
-    console.log(Data, "data2");
     let result = await User.findOneAndUpdate(
       { email: req.body.email }, // Query criteria
       {
@@ -199,7 +200,7 @@ app.post("/update", async (req, resp) => {
           api: {
             apikey: req.body.apiKey,
             apiid: req.body.apiID,
-            appname: req.body.appname,
+            appname: req.body.appName,
           },
         },
       }, // Update fields
@@ -209,9 +210,10 @@ app.post("/update", async (req, resp) => {
     if (result) {
       await result.save();
 
-      console.log("Updated User: ", result);
-      console.log("Updated apikey: ", result.apikey);
-      console.log("Updated apiid: ", result.apiid);
+      // console.log("Updated User: ", result);
+      // console.log("Updated apikey: ", result.apikey);
+      // console.log("Updated apiid: ", result.apiid);
+      // console.log("Updated apname: ", result.appname);
 
       resp.send(result); // Send the updated document as response
     } else {

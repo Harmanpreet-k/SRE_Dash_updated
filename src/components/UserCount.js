@@ -3,6 +3,8 @@ import Chart from "chart.js/auto";
 import { Bar, Pie } from "react-chartjs-2";
 import { Doughnut } from "react-chartjs-2";
 import { PolarArea } from "react-chartjs-2";
+import Spinner from "./loading3.gif";
+
 let new_data = {
   xLabels: [],
   yLabels: [],
@@ -16,8 +18,9 @@ const UserCount = () => {
   const fetchChartData = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
+    const Span = localStorage.getItem("Span");
     fetch(
-      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/users/count?timespan=P30D&interval=P1D`,
+      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/users/count?timespan=${Span}&interval=P1D`,
       {
         headers: {
           "x-api-key": `${ApiKey}`,
@@ -93,7 +96,7 @@ const UserCount = () => {
             height: "60%",
           }}
         >
-          <p>loading chart...</p>
+          <img src={Spinner} alt="Spinner" />
         </div>
       ) : new_data.length === 0 ? (
         <div

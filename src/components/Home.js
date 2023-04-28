@@ -171,17 +171,20 @@ function HomePage() {
   const [selectedValues, setSelectedValues] = useState(""); // State to store selected value
 
   const handleChange = (event) => {
-    setSelectedValue(event.target.value); // Update selected value in state
+    setSelectedValue(event.target.value);
+    localStorage.setItem("Span", event.target.value);
+    // Update selected value in state
   };
   const handleChanges = (event) => {
     setSelectedValues(event.target.value); // Update selected value in state
+    localStorage.setItem("interval", event.target.value);
   };
   useEffect(() => {
     setTimeout(() => {
       const retrievedAppname = localStorage.getItem("appname");
-      const eliminatedAppName = retrievedAppname.replace(/\d+$/, "");
-      console.log("App name:", eliminatedAppName);
-      setAppname(eliminatedAppName || ""); // Update appname state with retrieved value or empty string
+      // const eliminatedAppName = retrievedAppname.replace(/\d+$/, "");
+      // console.log("App name:", eliminatedAppName);
+      setAppname(retrievedAppname); // Update appname state with retrieved value or empty string
       // window.location.reload();
     }, 1000);
   }, []);
@@ -593,9 +596,9 @@ function HomePage() {
                   labelWidth={120}
                   size="small" // Set the size to small
                 >
-                  <MenuItem value="option1">Week</MenuItem>
-                  <MenuItem value="option2">Month</MenuItem>
-                  <MenuItem value="option3">Year</MenuItem>
+                  <MenuItem value="P1D">Day</MenuItem>
+                  <MenuItem value="P7D">Week</MenuItem>
+                  <MenuItem value="PT1H">1H</MenuItem>
                 </Select>
               </FormControl>
               <div>

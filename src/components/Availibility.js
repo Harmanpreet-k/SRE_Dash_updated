@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import Spinner from "./loading3.gif";
+
 let new_data = {
   xLabels: [],
   yLabels: [],
@@ -54,7 +55,7 @@ const Availibility = () => {
 
       const apiKey = localStorage.getItem("apiKey");
       const apiId = localStorage.getItem("apiId");
-
+      const Span = localStorage.getItem("Span");
       // const apiId = array[0][0].apiid;
       // console.log(apiId, "arr2");
 
@@ -71,7 +72,7 @@ const Availibility = () => {
       const applications = metaData.applications;
       const appName = applications[0].name;
       console.log(appName);
-      localStorage.setItem("appname", appName);
+      // localStorage.setItem("appname", appName);
     } catch (error) {
       console.error(error);
     }
@@ -81,9 +82,9 @@ const Availibility = () => {
     try {
       const apiKey = localStorage.getItem("apiKey");
       const apiId = localStorage.getItem("apiId");
-
+      const Span = localStorage.getItem("Span");
       const response = await fetch(
-        `https://api.applicationinsights.io/v1/apps/${apiId}/metrics/availabilityResults/availabilityPercentage?timespan=P30D&interval=P1D`,
+        `https://api.applicationinsights.io/v1/apps/${apiId}/metrics/availabilityResults/availabilityPercentage?timespan=${Span}&interval=P1D`,
         {
           headers: {
             "x-api-key": `${apiKey}`,
@@ -168,7 +169,7 @@ const Availibility = () => {
             height: "60%",
           }}
         >
-           <img src={Spinner} alt="Spinner" />
+          <img src={Spinner} alt="Spinner" />
         </div>
       ) : new_data.xLabels.length === 0 ? (
         <div
