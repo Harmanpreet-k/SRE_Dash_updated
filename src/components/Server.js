@@ -36,6 +36,9 @@ const Api = new mongoose.Schema({
   apiid: {
     type: String,
   },
+  appname: {
+    type: String,
+  },
 });
 const UserSchema = new mongoose.Schema({
   name: {
@@ -53,6 +56,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+
   api: [Api],
 });
 
@@ -149,6 +153,14 @@ app.post("/loggeduser", async (req, resp) => {
   }
 });
 
+app.get("/api", async (req, resp) => {
+  User.find({}).then((data) => {
+    console.log(data, "api");
+
+    resp.json({ msg: data });
+  });
+});
+
 app.get("/loggeduser", async (req, resp) => {
   console.log("inside");
   LoggedUser.findById("644a04441212e81be338be9a").then((data) => {
@@ -182,7 +194,15 @@ app.post("/update", async (req, resp) => {
     console.log(Data, "data2");
     let result = await User.findOneAndUpdate(
       { email: req.body.email }, // Query criteria
-      { $push: { api: { apikey: req.body.apiKey, apiid: req.body.apiID } } }, // Update fields
+      {
+        $push: {
+          api: {
+            apikey: req.body.apiKey,
+            apiid: req.body.apiID,
+            appname: req.body.appname,
+          },
+        },
+      }, // Update fields
       { new: true } // Return the updated document
     );
 

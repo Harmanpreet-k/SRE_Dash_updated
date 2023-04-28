@@ -7,7 +7,6 @@ import Modal from "react-modal";
 import ArrowBack from "@material-ui/icons/ArrowBackIos";
 import axios from "axios";
 import "./connect.css";
-
 import { useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   fileInput: {
@@ -71,17 +70,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConnectData() {
+export default function RegisterApp() {
   const avatarStyle = { backgroundColor: "Black" };
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
   const [apiID, setApiID] = useState("");
-  const [apiData, setApiData] = useState([], []);
 
   const isSubmitDisabled = !(apiKey && apiID);
-
-  const [appname, setAppname] = useState("");
-
   const [email, setEmail] = useState("");
   const location = useLocation();
   const handleApiKeyChange = (event) => {
@@ -97,63 +92,40 @@ export default function ConnectData() {
 
   // getUsersData();
   const handleConnectClick = async (e) => {
-    setEmail(location.pathname.split("/")[2].slice(0));
+    // setEmail(location.pathname);
 
     e.preventDefault();
     console.log(apiKey, apiID);
     if (apiKey.trim() !== "") {
-      try {
-        const result = await fetch("http://localhost:5000/update", {
-          method: "post",
-          body: JSON.stringify({ apiKey, apiID, email, appname }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await result.json();
-        console.log(data, "data");
-        console.log(email, " email");
-        console.log("pathname", location.pathname.split("/")[2].slice(0));
-        window.location.href = `/home/${email}`;
-        console.log(result);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    localStorage.setItem("display", false);
-  };
-
-  const Apifun = async () => {
-    let array = [];
-    try {
-      const response = await fetch("http://localhost:5000/api", {
-        method: "GET",
-        crossDomain: true,
+      let result = await fetch("http://localhost:5000/update", {
+        method: "post",
+        body: JSON.stringify({ apiKey, apiID, email }),
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
         },
-      });
-      const data = await response.json();
-      console.log(data.msg[0].api, "apidataa");
-      setApiData(data.msg[0].api);
-      console.log(apiData, "apiiiii");
-    } catch (error) {
-      console.log(error);
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data, "data");
+        });
+
+      result = await result;
+      // console.log(queryParameters, "query");
+      console.log(email, " email");
+      console.log("pathname", location.pathname.split("/")[2].slice(0));
+      // console.log({ params }, "data data");
+      window.location.href = `/home/${email}`;
+
+      console.log(result);
     }
+
+    localStorage.setItem("display", false);
   };
-
-  useEffect(() => {
-    Apifun();
-  }, []);
-
-  // Rest of the code
 
   return (
     <div className="body">
       <div className={classes.header}>
-        <Link href="/home/:email">
+        <Link href="/connect/:email">
           <ArrowBack style={{ color: "white", marginRight: "10px" }} />
         </Link>
         <Typography align="left" variant="h6" className={classes.title}>
@@ -172,7 +144,7 @@ export default function ConnectData() {
             display: "inline-block",
           }}
         >
-          Connect to App{" "}
+          Register App{" "}
           {/* <ArrowForwardIcon
             style={{ verticalAlign: "middle", marginBottom: "0.2em" }}
           /> */}
@@ -197,32 +169,16 @@ export default function ConnectData() {
             // marginBottom: "70%",
           }}
         >
-          <div>
-            <select
-              onChange={handleApiIdChange}
-              style={{
-                width: "350px",
-                marginTop: "80px",
-                marginLeft: "0px",
-                marginRight: "-28px",
-              }}
-              value={apiID}
-            >
-              {apiData.map((e, index) => {
-                return <option value={e.apiid}>{e.apiid}</option>;
-              })}
-            </select>
-          </div>
-
           {/* <TextField
-            label="Enter APP ID "
+            label="Enter APP Name "
+            // variant="outlined"
             required
             style={{
               width: "70%",
               marginTop: "20px",
             }}
-            value={apiID}
-            onChange={handleApiIdChange}
+            // value={apiKey}
+            // onChange={handleApiKeyChange}
           /> */}
           <TextField
             label="Enter API key "
@@ -235,24 +191,27 @@ export default function ConnectData() {
             value={apiKey}
             onChange={handleApiKeyChange}
           />
+          <TextField
+            label="Enter APP ID "
+            required
+            style={{
+              width: "70%",
+              marginTop: "20px",
+            }}
+            value={apiID}
+            onChange={handleApiIdChange}
+          />
+
           <Button
             variant="contained"
             // href="/home"
             className={classes.button}
-            // disabled={isSubmitDisabled}
+            disabled={isSubmitDisabled}
             onClick={handleConnectClick}
           >
-            Connect to Dashboard
+            Register App
           </Button>
-          <Button
-            variant="contained"
-            href="/register"
-            className={classes.button}
-            // disabled={isSubmitDisabled}
-            // onClick={handleConnectClick}
-          >
-            Register New App
-          </Button>
+
           {/* </div> */}
         </div>
       </div>

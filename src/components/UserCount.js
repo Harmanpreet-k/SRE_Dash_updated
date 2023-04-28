@@ -83,7 +83,7 @@ const UserCount = () => {
     ],
   };
   return (
-    <div style={{ height: "300px", widht: "300px", marginLeft: "90px" }}>
+    <div style={{ height: "400px", widht: "400px", marginTop: "20px" }}>
       {loader ? (
         <div
           style={{
@@ -107,7 +107,7 @@ const UserCount = () => {
           <p>No data available</p>
         </div>
       ) : (
-        <Doughnut data={data} />
+        <Bar data={data} />
       )}
     </div>
   );

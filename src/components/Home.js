@@ -168,9 +168,13 @@ function HomePage() {
   const [appname, setAppname] = useState("");
   const [score, setScore] = useState("");
   const [selectedValue, setSelectedValue] = useState(""); // State to store selected value
+  const [selectedValues, setSelectedValues] = useState(""); // State to store selected value
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value); // Update selected value in state
+  };
+  const handleChanges = (event) => {
+    setSelectedValues(event.target.value); // Update selected value in state
   };
   useEffect(() => {
     setTimeout(() => {
@@ -579,22 +583,55 @@ function HomePage() {
                     marginTop: "3px",
                   }}
                 >
-                  Filter
+                  TimeSpan
                 </InputLabel>
                 <Select
                   id="dropdown"
-                  label="Filter"
+                  label="Timespan"
                   value={selectedValue}
                   onChange={handleChange}
                   labelWidth={120}
                   size="small" // Set the size to small
                 >
-                  <MenuItem value="option1">30D</MenuItem>
-                  <MenuItem value="option2">1D</MenuItem>
-                  <MenuItem value="option3">1H</MenuItem>
+                  <MenuItem value="option1">Week</MenuItem>
+                  <MenuItem value="option2">Month</MenuItem>
+                  <MenuItem value="option3">Year</MenuItem>
                 </Select>
               </FormControl>
-
+              <div>
+                <FormControl
+                  fullWidth
+                  variant="outlined"
+                  size="small"
+                  style={{
+                    width: "150px",
+                    marginTop: "80px",
+                    marginLeft: "0px",
+                    marginRight: "-28px",
+                  }}
+                >
+                  <InputLabel
+                    htmlFor="dropdown"
+                    style={{
+                      marginTop: "3px",
+                    }}
+                  >
+                    Interval
+                  </InputLabel>
+                  <Select
+                    id="dropdown"
+                    label="Interval"
+                    value={selectedValues}
+                    onChange={handleChanges}
+                    labelWidth={120}
+                    size="small" // Set the size to small
+                  >
+                    <MenuItem value="option1">24H</MenuItem>
+                    <MenuItem value="option2">Week</MenuItem>
+                    <MenuItem value="option3">Month</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
               <ReactSpeedometer
                 styles={{
                   marginTop: "0px",

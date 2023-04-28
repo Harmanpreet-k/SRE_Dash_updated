@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import { Bar, Pie, Line } from "react-chartjs-2";
+import Spinner from "./loading3.gif";
 let new_data = {
   xLabels: [],
   yLabels: [],
@@ -13,9 +14,9 @@ const Availibility = () => {
     xLabels: [],
     yLabels: [],
   });
+
   const getName = async () => {
     let array = [];
-
     try {
       const response = await fetch("http://localhost:5000/loggeduser", {
         method: "GET",
@@ -30,98 +31,90 @@ const Availibility = () => {
       const data = await response.json();
       const e = data.msg;
       setEmail(e);
+
+      const apiResponse = await fetch("http://localhost:5000/api", {
+        method: "POST",
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          email,
+        }),
+      });
+
+      const apiData = await apiResponse.json();
+      const apiArray = apiData.msg;
+      console.log(apiArray, "dttttt");
+      // array.push(apiArray)
+      apiArray.map((e) => array.push(e));
+      console.log(array[0][0].apiid, "arr1");
+
+      const apiKey = localStorage.getItem("apiKey");
+      const apiId = localStorage.getItem("apiId");
+
+      // const apiId = array[0][0].apiid;
+      // console.log(apiId, "arr2");
+
+      const metaDataResponse = await fetch(
+        `https://api.applicationinsights.io/v1/apps/${apiId}/metaData`,
+        {
+          headers: {
+            "x-api-key": `${apiKey}`,
+          },
+        }
+      );
+
+      const metaData = await metaDataResponse.json();
+      const applications = metaData.applications;
+      const appName = applications[0].name;
+      console.log(appName);
+      localStorage.setItem("appname", appName);
     } catch (error) {
       console.error(error);
     }
-
-    fetch("http://localhost:5000/api", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        let data6 = [];
-        data6 = data.msg[0];
-        console.log(data6.length, "dttttt");
-        // array.push(data6[0]);
-        // console.log(array, "arr1");
-        data6.map((e) => {
-          // console.log(e);
-          array.push(e);
-          // setApi(e);
-        });
-        console.log(array[0], "arr1");
-        // array[0] = data.msg[0][0];
-      });
-
-    const ApiKey = localStorage.getItem("apiKey");
-    console.log(array, "arr");
-    // array.map((e) => {
-    //   console.log(e, "e");
-    // });
-
-    const ApiId = localStorage.getItem("apiId");
-    fetch(`https://api.applicationinsights.io/v1/apps/${ApiId}/metaData`, {
-      headers: {
-        "x-api-key": `${ApiKey}`,
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const applications = data.applications;
-
-        const appName = applications[0].name;
-        console.log(appName);
-        localStorage.setItem("appname", appName);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
-  getName();
 
-  const fetchChartData = () => {
-    const ApiKey = localStorage.getItem("apiKey");
-    const ApiId = localStorage.getItem("apiId");
+  const fetchChartData = async () => {
+    try {
+      const apiKey = localStorage.getItem("apiKey");
+      const apiId = localStorage.getItem("apiId");
 
-    fetch(
-      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/availabilityResults/availabilityPercentage?timespan=P30D&interval=P1D`,
-      {
-        headers: {
-          "x-api-key": `${ApiKey}`,
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((res) => {
-        const data = res.value.segments;
+      const response = await fetch(
+        `https://api.applicationinsights.io/v1/apps/${apiId}/metrics/availabilityResults/availabilityPercentage?timespan=P30D&interval=P1D`,
+        {
+          headers: {
+            "x-api-key": `${apiKey}`,
+          },
+        }
+      );
 
-        // console.log("data received", data);
-        data.forEach((d) => {
-          new_data.xLabels.push(new Date(d.start).toDateString());
-          new_data.yLabels.push(
-            d["availabilityResults/availabilityPercentage"].avg
-          );
-        });
-        // console.log("final newData:", new_data);
-        setChartData(new_data);
-        setLoader(false);
-      })
-      .catch((err) => console.log("error while fetching the data: ", err));
+      const res = await response.json();
+      const data = res.value.segments;
+
+      const new_data = {
+        xLabels: [],
+        yLabels: [],
+      };
+
+      data.forEach((d) => {
+        new_data.xLabels.push(new Date(d.start).toDateString());
+        new_data.yLabels.push(
+          d["availabilityResults/availabilityPercentage"].avg
+        );
+      });
+
+      setChartData(new_data);
+      setLoader(false);
+    } catch (err) {
+      console.log("error while fetching the data: ", err);
+    }
   };
 
   useEffect(() => {
-    // console.log("making fetch request");
+    getName();
     fetchChartData();
   }, []);
   const unique = (paramters) => {
@@ -175,7 +168,7 @@ const Availibility = () => {
             height: "60%",
           }}
         >
-          <p>loading chart...</p>
+           <img src={Spinner} alt="Spinner" />
         </div>
       ) : new_data.xLabels.length === 0 ? (
         <div

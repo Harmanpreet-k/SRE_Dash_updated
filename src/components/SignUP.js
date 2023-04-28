@@ -55,6 +55,8 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apikey, setApikey] = useState("");
   const [apiid, setApiid] = useState("");
+  const [apiname, setApiname] = useState("");
+
   const [successMessage, setSuccessMessage] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const classes = useStyles();
@@ -127,7 +129,15 @@ const Signup = () => {
     let result = await fetch("http://localhost:5000/register", {
       method: "post",
 
-      body: JSON.stringify({ name, email, phone, password, apikey, apiid }),
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        password,
+        apikey,
+        apiid,
+        apiname,
+      }),
       headers: {
         "Content-Type": "application/json",
       },

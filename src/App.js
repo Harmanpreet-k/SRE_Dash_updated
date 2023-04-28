@@ -18,6 +18,7 @@ import Signup from "./components/SignUP";
 import ReliabilityScore from "./components/ReliabilityScore";
 import Login from "./components/Login";
 import NotFound from "./components/NotFound";
+import RegisterApp from "./components/RegisterApp";
 function App() {
   return (
     <>
@@ -26,6 +27,8 @@ function App() {
           <div>
             <Routes>
               <Route path="/home/:email" element={<HomePage />} />
+              <Route path="/register" element={<RegisterApp />} />
+
               <Route path="/failed" element={<FailedReq />} />
               <Route path="/server" element={<ServerReq />} />
               <Route path="/connect/:email" element={<ConnectData />} />
