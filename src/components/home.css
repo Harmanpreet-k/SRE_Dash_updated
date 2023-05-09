@@ -14,6 +14,12 @@
   .appBar {
     z-index: 1201; /* increase z-index to overlap with the drawer */
   }
+
+  .title
+  {
+    font-size: 18px ;
+    font-weight: bold;
+  }
   .body {
     background-color: #ffffff;
     height: 100vh;

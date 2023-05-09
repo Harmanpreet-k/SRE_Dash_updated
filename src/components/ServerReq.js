@@ -8,7 +8,7 @@ const new_data = {
   xLabels: [],
   yLabels: [],
 };
-const ServerReq = () => {
+const ServerReq = (props) => {
   const [loader, setLoader] = useState(true);
   const [chartData, setChartData] = useState({
     xLabels: [],
@@ -38,9 +38,30 @@ const ServerReq = () => {
         // console.log("datasssssssssssssss", datas);
         // console.log("data received", data);
         datas.forEach((d) => {
-          new_data.xLabels.push(new Date(d.start).toDateString());
-          new_data.yLabels.push(d["requests/count"].sum);
+
+           if(localStorage.getItem("Start")==null && localStorage.getItem("End")==null  )
+           {
+            new_data.xLabels.push(new Date(d.end).toDateString());
+            new_data.yLabels.push(d["requests/count"].sum);
+           }
+           else
+           {
+          
+            if(d.end>=localStorage.getItem('Start') && d.start<=localStorage.getItem('End'))
+            {
+              new_data.xLabels.push(new Date(d.end).toDateString());
+              new_data.yLabels.push(d["requests/count"].sum);
+           
+            }
+
+          }
+          
+        
+        
         });
+
+        
+        console.log("----------------------------shfhgfghf--------------",datas)
         // console.log("serv req------:", new_data);
         // console.log(
         //   "new_data xvariable......................",
@@ -73,7 +94,7 @@ const ServerReq = () => {
     // console.log("first sergchtuycyjfyhjfjyh23456789098323o", new_data);
     fetchChartData();
     // console.log("second erghmjgefrgth34567u6543", new_data);
-  });
+  },[]);
 
   const data = {
     //   var unique = new_data.map(ar=>JSON.stringify(ar))

@@ -42,26 +42,103 @@ const useStyles = makeStyles((theme) => ({
     background: "#1976D2", // Update avatar background color
   },
 
-  button: {
-    backgroundColor: "#EE9949",
+  connectButton: {
 
-    color: "#5f3d1d",
-    // backgroundColor: "#ffd330",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 0.1,
-    marginTop: theme.spacing(2),
-    borderRadius: "5px",
-    border: "4",
-    height: "10px",
-    fontWeight: "bold",
-    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
-    "&:hover": {
-      backgroundColor: "#be7a3a",
-      color: "white",
-    },
-  },
+        backgroundColor: "#EE9949",
+    
+    
+    
+    
+        color: "#5f3d1d",
+    
+        // backgroundColor: "#ffd330",
+    
+        // display: "flex",
+    
+        justifyContent: "center",
+    
+        alignItems: "center",
+    
+        flex: 0.4,
+    
+        marginTop: theme.spacing(2),
+    
+        borderRadius: "5px",
+    
+        border: "4",
+    
+        height: "60px",
+    
+        // width: "10px",
+    
+        fontSize: "70",
+    
+        fontFamily: "monospace",
+    
+        fontWeight: "bold",
+    
+        boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
+    
+        marginBottom: "10px",
+    
+        "&:hover": {
+    
+          backgroundColor: "#be7a3a",
+    
+          color: "white",
+    
+        },
+    
+      },
+    
+      registerButton: {
+    
+        backgroundColor: "#1D458A",
+    
+    
+    
+    
+        color: "#EBF2FA",
+    
+        // backgroundColor: "#ffd330",
+    
+        // display: "flex",
+    
+        justifyContent: "center",
+    
+        alignItems: "center",
+    
+        flex: 0.4,
+    
+        marginTop: theme.spacing(2),
+    
+        borderRadius: "5px",
+    
+        border: "4",
+    
+        height: "60px",
+    
+        // width: "10px",
+    
+        fontSize: "70",
+    
+        fontFamily: "monospace",
+    
+        fontWeight: "bold",
+    
+        boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
+    
+        marginBottom: "10px",
+    
+        "&:hover": {
+    
+          backgroundColor: "#4B75CB",
+    
+          color: "white",
+    
+        },
+    
+      },
 
   body: {
     overflow: "hidden",
@@ -75,29 +152,59 @@ export default function ConnectData() {
   const avatarStyle = { backgroundColor: "Black" };
   const classes = useStyles();
   const [apiKey, setApiKey] = useState("");
+  const [apikey1, setApiKey1] = useState("");
   const [apiID, setApiID] = useState("");
   const [apiData, setApiData] = useState([], []);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const isSubmitDisabled = !(apiKey && apiID);
 
   const [appname, setAppname] = useState("");
-
-  const [email, setEmail] = useState("");
   const location = useLocation();
-  const handleApiKeyChange = (event) => {
+
+  const [email, setEmail] = useState(location.pathname.split("/")[2].slice(0));
+
+  
+ 
+
+
+  const handleApiKeyChange = async (event) => {
     const newApiKey = event.target.value;
-    setApiKey(newApiKey);
-    localStorage.setItem("apiKey", newApiKey);
+    alert(newApiKey);
+
+    const newEmail = location.pathname.split("/")[2].slice(0);
+    //  await fetch("http://localhost:5000/identifyapikey", {
+
+
+    //    method: "post",
+    //     body: JSON.stringify({newApiKey,email}),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       console.log(data, "data");
+    //     });
+
+
+    setEmail(newEmail);
+    //setApiKey1(newApiKey);
+
+    localStorage.setItem("apiKey", apikey1);
   };
   const handleApiIdChange = (event) => {
-    const newApiId = event.target.value.split(",")[1];
-    setApiID(newApiId);
-    const newAppName = event.target.value.split(",")[0];
+    //const newApiId = event.target.value;//.split(",")[1];
+    //setApiID(newApiId);
+    //const newAppName = event.target.value.split(",")[0];
     // alert(event.target.value.split(",")[0]);
-    localStorage.setItem("appname", newAppName);
+   // localStorage.setItem("appname", newAppName);
+    //localStorage.setItem("apiId", newApiId);
+   localStorage.setItem("appname",event.target.value.split(",")[1] );
 
-    localStorage.setItem("apiId", newApiId);
-    setAppname(newAppName);
+localStorage.setItem("apiId",event.target.value.split(",")[0] );
+   // setAppname(newAppName);
     // alert(newApiId);
 
     // localStorage.setItem("appname", newAppName);
@@ -113,7 +220,36 @@ export default function ConnectData() {
   };
 
   const handleConnectClick = async (e) => {
-    // setEmail(location.pathname.split("/")[2].slice(0));
+   
+
+
+    const timeElapsed = Date.now();
+
+    const today = new Date(timeElapsed);
+
+    localStorage.setItem("today",today.toISOString().split("T")[0])
+
+
+
+
+   
+
+    console.log(today.toISOString().split("T")[0])
+
+localStorage.removeItem("Start")
+
+localStorage.removeItem("End")
+
+localStorage.setItem("Span","P30D")
+ 
+
+
+
+
+
+    e.preventDefault()
+
+    setEmail(location.pathname.split("/")[2].slice(0))
 
     // e.preventDefault();
     // console.log(email);
@@ -122,12 +258,49 @@ export default function ConnectData() {
     //   window.location.href = `/home/${email}`;
     // }, 1000);
 
-    setEmail((prevEmail) => {
-      const newEmail = location.pathname.split("/")[2].slice(0);
-      console.log(newEmail, "mail mail");
-      window.location.href = `/home/${newEmail}`;
-      return newEmail;
-    });
+    // setEmail((prevEmail) => {
+    //   const newEmail = location.pathname.split("/")[2].slice(0);
+    //   console.log(newEmail, "mail mail");
+    //  // window.location.href = `/home/${newEmail}`;
+    //   return newEmail;
+    // });
+
+
+    fetch("http://localhost:5000/validateapikey", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        email,
+        apikey1,
+      }),
+
+     
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.msg);
+        if (data.msg == 'Incorrect API Key') {
+          setErrorMessage("Invalid API Key");
+          setShowErrorMessage(true);
+        }
+        if (data.msg == 'Correct API Key') {
+          // setErrorMessage("Valid API Key");
+          // setShowErrorMessage(true);
+          localStorage.setItem("apiKey", apikey1);
+          console.log("newApikey",);
+          window.location.href = `/home/${email}`
+
+        }
+
+      });
+
+
+
   };
 
   const Apifun = async () => {
@@ -148,7 +321,16 @@ export default function ConnectData() {
       console.log(apiData, "apiiiii");
     } catch (error) {
       console.log(error);
+      if (error.response.status === 403) {
+        setErrorMessage('You are not authorized to access this resource.');
+        setShowErrorMessage(true);
+        // setTimeout(() => {
+        // //   window.location.href = `/`;
+        //  }, 15000);
+      }
+
     }
+
   };
 
   useEffect(() => {
@@ -213,19 +395,21 @@ export default function ConnectData() {
                 marginLeft: "0px",
                 marginRight: "-28px",
               }}
-              value={[apiID, appname]}
+
+              //value={apiID}
             >
-              {/* <option value="" disabled selected>
+              <option value="" disabled selected>
                 Select app name
-              </option> */}
+              </option>
               {apiData.map((e, index) => {
                 return (
-                  <option key={index} value={[e.appname, e.apiid]}>
+                  <option  value={[e.apiid,e.appname]}>
                     {e.appname}
                   </option>
                 );
               })}
             </select>
+            
           </div>
 
           {/* <TextField
@@ -246,27 +430,75 @@ export default function ConnectData() {
               width: "70%",
               marginTop: "20px",
             }}
-            value={apiKey}
-            onChange={handleApiKeyChange}
+            value={apikey1}
+            onChange={(e) => setApiKey1(e.target.value)}
+
           />
-          <Button
-            variant="contained"
-            // href="/home"
-            className={classes.button}
-            // disabled={isSubmitDisabled}
-            onClick={handleConnectClick}
-          >
-            Connect to Dashboard
-          </Button>
-          <Button
-            variant="contained"
-            // href="/register"
-            className={classes.button}
-            // disabled={isSubmitDisabled}
-            onClick={handleRegisterClick}
-          >
-            Register New App
-          </Button>
+           
+<div style={{ textAlign: 'left' }}> {showErrorMessage && ( <div className="Error-message" style={{ color: 'red', paddingTop: '0', marginTop: '0px', fontSize: '16px', fontWeight: 'bold', }} > {errorMessage} </div> )} </div>
+
+
+
+          <div
+
+                  style={{
+
+                     display: "flex",
+
+                     flexDirection: "row",
+
+                     justifyContent: "space-between",
+
+                     // height: "200px",
+
+                     width: "40vw",
+
+                     paddingLeft: "40px",
+
+                     paddingRight: "35px",
+
+                  }}
+
+               >
+                
+
+                  <Button
+
+                     variant="contained"
+
+                     // href="/home"
+
+                     className={classes.connectButton}
+
+                     // disabled={isSubmitDisabled}
+
+                     onClick={handleConnectClick}
+
+                  >
+
+                     Connect to Dashboard
+
+                  </Button>
+
+                  <Button
+
+                     variant="contained"
+
+                     className={classes.registerButton}
+
+                     onClick={handleRegisterClick}
+
+                  >
+
+                     Register New App
+
+                  </Button>
+
+               </div>
+          
+         
+
+          
           {/* </div> */}
         </div>
       </div>

@@ -31,13 +31,13 @@ LoggedUser.createIndexes();
 
 const Api = new mongoose.Schema({
   apikey: {
-    type: String, // required: true, // unique: true,
+    type: String,   //unique: true, // required: true,
   },
   apiid: {
-    type: String,
+    type: String, //unique: true, // required: true,
   },
   appname: {
-    type: String,
+    type: String, //unique: true, // required: true,
   },
 });
 const UserSchema = new mongoose.Schema({
@@ -105,6 +105,89 @@ app.post("/register", async (req, resp) => {
     resp.send("Something Went Wrong");
   }
 });
+
+
+app.post("/validateapikey", async (req, resp) => {
+console.log("hubcifwhbfciweifhiwe",req.body.email);
+  try {
+    User.findOne({ email: req.body.email })
+      .then((userData) => {
+       // console.log("req  req.body.newApiKey",req.body.newApiKey);
+        console.log("----------------",userData,"ddddddddddfgh");
+        const {api}=userData;
+        console.log(api[0]["apikey"],"asbdgxiuawgdiqg");
+        let flag=false;
+        api.forEach((a)=>{
+          if(req.body.apikey1==a["apikey"])
+          {flag=true;
+            //resp.send({ msg: "Correct API Key" });
+          }
+
+        }
+        )
+         if(flag)
+        {
+          resp.send({ msg: "Correct API Key" });
+        }
+        else{
+          resp.send({ msg: "Incorrect API Key" });
+        }
+
+        //userData["api"].forEach(element => {
+          //console.log(element["apikey"]===req.body.newApiKey);
+          // console.log(typeof(element["apikey"]));
+          // console.log(typeof(req.body.newApiKey));
+          // console.log(typeof(element["apikey"])===typeof(req.body.newApiKey));
+          // if(element["apikey"]===req.body.newApiKey){
+          //   console.log("passs");
+          //   console.log("element",element["apikey"]);
+          // }
+          //console.log("element",element["apikey"])
+          //element["apikey"]\
+          
+          
+
+
+    
+          
+       // });
+        // if (userData != undefined && userData != null) {
+        //   if (userData.password == user.password) {
+        //     res.send({ msg: "valid user" });
+        //   } else {
+        //     console.log("hi");
+        //     res.send({ msg: "invalid user" });
+        //   }
+        // }
+      })
+      .catch((err) => {
+        resp.send({ msg: "Incorrect API Key" });;
+      });
+  } 
+  catch (e) {
+    res.send({ msg: "Invalid credentials" });
+  }
+});
+  //   let result = await user.save();
+
+  //   result = result.toObject();
+
+  //   if (result) {
+  //     delete result.password;
+
+  //     resp.send(req.body);
+
+  //     console.log(result);
+  //   } else {
+  //     console.log("User already register");
+  //   }
+  // } catch (e) {
+  //   resp.send("Something Went Wrong");
+   
+  
+
+
+
 app.post("/login", async (req, res) => {
   const user = new User(req.body);
   try {
@@ -121,11 +204,11 @@ app.post("/login", async (req, res) => {
           }
         }
       })
-
       .catch((err) => {
         res.send({ msg: "invalid user" });
       });
-  } catch (e) {
+  } 
+  catch (e) {
     res.send({ msg: "invalid credentials" });
   }
 });

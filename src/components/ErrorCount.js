@@ -21,7 +21,7 @@ const ErrorCount = () => {
     // console.log(ApiId);
 
     fetch(
-      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/exceptions/count?timespan=${Span}&interval=PT10M`,
+      `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/exceptions/count?timespan=${Span}&interval=P1D`,
       {
         headers: {
           "x-api-key": `${ApiKey}`,
@@ -35,8 +35,21 @@ const ErrorCount = () => {
 
         // console.log("data received", data);
         data.forEach((d) => {
-          new_data.xLabels.push(new Date(d.start).toDateString());
-          new_data.yLabels.push(d["exceptions/count"].sum);
+
+          if(localStorage.getItem("Start")==null && localStorage.getItem("End")==null  )
+          {
+            new_data.xLabels.push(new Date(d.end).toDateString());
+            new_data.yLabels.push(d["exceptions/count"].sum);
+          }
+         
+          else
+          {
+            if(d.end>=localStorage.getItem('Start') && d.start<=localStorage.getItem('End'))
+            {
+            new_data.xLabels.push(new Date(d.end).toDateString());
+            new_data.yLabels.push(d["exceptions/count"].sum);
+            }
+          }
         });
         // console.log("final newData:", new_data);
         setChartData(new_data);
@@ -58,7 +71,7 @@ const ErrorCount = () => {
   useEffect(() => {
     // console.log("making fetch request");
     fetchChartData();
-  }, []);
+  },[]);
 
   const data = {
     labels: unique(new_data.xLabels),

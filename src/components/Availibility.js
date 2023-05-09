@@ -101,10 +101,28 @@ const Availibility = () => {
       };
 
       data.forEach((d) => {
-        new_data.xLabels.push(new Date(d.start).toDateString());
+
+
+        if(localStorage.getItem("Start")==null && localStorage.getItem("End")==null  )
+        {
+          new_data.xLabels.push(new Date(d.end).toDateString());
+          new_data.yLabels.push(
+            d["availabilityResults/availabilityPercentage"].avg
+          );
+        }
+        else
+        {
+          if(d.end>=localStorage.getItem('Start') && d.start<localStorage.getItem('End'))
+          {
+        
+        new_data.xLabels.push(new Date(d.end).toDateString());
         new_data.yLabels.push(
           d["availabilityResults/availabilityPercentage"].avg
         );
+        }
+      }
+        
+        
       });
 
       setChartData(new_data);
@@ -117,7 +135,7 @@ const Availibility = () => {
   useEffect(() => {
     getName();
     fetchChartData();
-  }, []);
+  },[]);
   const unique = (paramters) => {
     var unique1 = paramters
       .map((ar) => JSON.stringify(ar))

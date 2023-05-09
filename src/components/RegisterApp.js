@@ -208,6 +208,9 @@ export default function RegisterApp() {
           />
 
           <Button
+          style={{
+            padding:"25px"
+          }}
             variant="contained"
             // href="/home"
             className={classes.button}

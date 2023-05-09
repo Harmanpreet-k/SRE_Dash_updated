@@ -126,7 +126,7 @@ const Login = () => {
                     setSuccessMessage("Login successful!!");
                     setShowSuccessMessage(true);
                     setTimeout(() => {
-                      window.location.href = `/home/${data.msg}`;
+                      window.location.href = `/connect/${data.msg}`;
                     }, 2000);
                   });
               } catch (err) {
@@ -134,10 +134,10 @@ const Login = () => {
                 setError("Incorrect username or password.");
               }
 
-              localStorage.setItem("display", true);
+              localStorage.setItem("display", false);
             });
 
-          localStorage.setItem("display", true);
+          localStorage.setItem("display", false);
         }
       });
   };

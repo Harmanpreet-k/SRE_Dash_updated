@@ -33,8 +33,19 @@ const UserCount = () => {
 
         // console.log("data received", data);
         data.forEach((d) => {
-          new_data.xLabels.push(new Date(d.start).toDateString());
-          new_data.yLabels.push(d["users/count"].unique);
+
+          if (localStorage.getItem("Start") == null && localStorage.getItem("End") == null) {
+            new_data.xLabels.push(new Date(d.end).toDateString());
+            new_data.yLabels.push(d["users/count"].unique);
+          }
+
+          else {
+
+            if (d.end >= localStorage.getItem('Start') && d.start <= localStorage.getItem('End')) {
+              new_data.xLabels.push(new Date(d.end).toDateString());
+              new_data.yLabels.push(d["users/count"].unique);
+            }
+          }
         });
         // console.log("final newData:", new_data);
         setChartData(new_data);

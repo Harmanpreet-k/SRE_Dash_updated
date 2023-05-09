@@ -170,12 +170,37 @@ function HomePage() {
   const [selectedValue, setSelectedValue] = useState(""); // State to store selected value
   const [selectedValues, setSelectedValues] = useState(""); // State to store selected value
 
+  const [heading,setHeading]=useState("TimeSpan");
+  const [endDate,setEndDate]=useState()
+
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
     localStorage.setItem("Span", event.target.value);
+    localStorage.setItem("Name",event.target.value);
+    window.location.reload(true);
+   
+
+ 
     // Update selected value in state
   };
-  const handleChanges = (event) => {
+  const RefreshMethod=()=>
+  {
+    window.location.reload(true)
+  }
+
+  const handleStartDates=(e)=>
+  {
+    setDate(e.target.value);
+    localStorage.setItem("Start",e.target.value);
+    console.log(localStorage.getItem('Start'));
+  }
+  const handleEndDates=(e)=>
+  {
+    setEndDate(e.target.value);
+    localStorage.setItem("End",e.target.value);
+    console.log(localStorage.getItem('End'));
+  }
+  const handleChangesInterval = (event) => {
     setSelectedValues(event.target.value); // Update selected value in state
     localStorage.setItem("interval", event.target.value);
   };
@@ -205,6 +230,8 @@ function HomePage() {
   const [email, setEmail] = useState("");
   const isSubmitDisabled = !(apiKey && apiID);
   const location = useLocation();
+
+  const [startDate,setDate]=useState();
   // const email = queryParameters.get("email");
 
   const handleConnectClick = async (e) => {
@@ -250,6 +277,8 @@ function HomePage() {
   };
   const handleButtonClick = () => {
     setEmail((prevEmail) => {
+      localStorage.removeItem("Start")
+      localStorage.removeItem("End")
       const newEmail = location.pathname.split("/")[2].slice(0);
       console.log(newEmail, "mail mail");
       window.location.href = `/connect/${newEmail}`;
@@ -567,7 +596,7 @@ function HomePage() {
                   textShadow: "3px 3px 5px rgba(0, 0, 0, 1)",
                 }}
               >
-                {appname}
+               {appname}
               </div>
               <FormControl
                 fullWidth
@@ -575,20 +604,21 @@ function HomePage() {
                 size="small"
                 style={{
                   width: "150px",
-                  marginTop: "80px",
+                  marginTop: "45px",
                   marginLeft: "0px",
                   marginRight: "-28px",
+                 
                 }}
               >
-                <InputLabel
-                  htmlFor="dropdown"
-                  style={{
-                    marginTop: "3px",
-                  }}
+                {/* <InputLabel
+                  // htmlFor="dropdown"
+                  // style={{
+                  //   marginTop: "3px",
+                  // }}
                 >
-                  TimeSpan
-                </InputLabel>
-                <Select
+                {localStorage.getItem("Name")}
+                </InputLabel> */}
+                {/* <Select
                   id="dropdown"
                   label="Timespan"
                   value={selectedValue}
@@ -596,46 +626,25 @@ function HomePage() {
                   labelWidth={120}
                   size="small" // Set the size to small
                 >
-                  <MenuItem value="P1D">Day</MenuItem>
+                  <MenuItem value="P30D">Month</MenuItem>
                   <MenuItem value="P7D">Week</MenuItem>
-                  <MenuItem value="PT1H">1H</MenuItem>
-                </Select>
+                  <MenuItem value="P1D">Day</MenuItem>
+                </Select> */}
               </FormControl>
-              <div>
-                <FormControl
-                  fullWidth
-                  variant="outlined"
-                  size="small"
-                  style={{
-                    width: "150px",
-                    marginTop: "80px",
-                    marginLeft: "0px",
-                    marginRight: "-28px",
-                  }}
-                >
-                  <InputLabel
-                    htmlFor="dropdown"
-                    style={{
-                      marginTop: "3px",
-                    }}
-                  >
-                    Interval
-                  </InputLabel>
-                  <Select
-                    id="dropdown"
-                    label="Interval"
-                    value={selectedValues}
-                    onChange={handleChanges}
-                    labelWidth={120}
-                    size="small" // Set the size to small
-                  >
-                    <MenuItem value="option1">24H</MenuItem>
-                    <MenuItem value="option2">Week</MenuItem>
-                    <MenuItem value="option3">Month</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <ReactSpeedometer
+             
+               
+             <div className="row justify-content-end m-3" >
+                 <div className="col"><label className="title">From :</label> <input className="form-control" type="date" value={localStorage.getItem("Start")}    onChange={handleStartDates} max={localStorage.getItem("today")}/></div>
+                 <div className="col"><label className="title">To :   </label><input type="date" className="form-control" value={localStorage.getItem("End")}  onChange={handleEndDates} min={localStorage.getItem("Start")}  max={localStorage.getItem("today")}/></div>
+                   
+                <div className="col"><br/><button onClick={RefreshMethod} className="btn btn-dark">Search</button></div>
+               
+             </div>
+               
+                 
+              
+             
+              <ReactSpeedometer 
                 styles={{
                   marginTop: "0px",
                   marginBottom: "-300px",
@@ -691,8 +700,11 @@ function HomePage() {
                     fontSize: "10px",
                   },
                 ]}
+              
               />
+              
             </div>
+           
             <Typography
               variant="poster"
               style={{
@@ -705,8 +717,9 @@ function HomePage() {
 
                 textShadow: "2px 2px 3px rgba(0, 0, 0, 1)",
               }}
+              
             >
-              Reliability Score
+           <label>  Reliability Score</label>
             </Typography>
 
             <div
@@ -734,7 +747,7 @@ function HomePage() {
                     Server Requests
                   </Typography>
                 </Box>
-                <ServerReq />
+                <ServerReq start={startDate} end={endDate} />
               </div>
 
               <div
@@ -754,7 +767,7 @@ function HomePage() {
                     Latency
                   </Typography>
                 </Box>
-                <Letancy />
+                <Letancy  start={startDate} end={endDate} />
               </div>
 
               <div

@@ -16,7 +16,8 @@ const FailedReq = () => {
   const fetchChartData = () => {
     const ApiKey = localStorage.getItem("apiKey");
     const ApiId = localStorage.getItem("apiId");
-    const Span = localStorage.getItem("Span");
+   const Span=localStorage.getItem("Span")
+    console.log("----------------HI"+localStorage.getItem("Span"));
     fetch(
       `https://api.applicationinsights.io/v1/apps/${ApiId}/metrics/requests/failed?timespan=${Span}&interval=P1D`,
       {
@@ -31,8 +32,22 @@ const FailedReq = () => {
 
         // console.log("data received", data);
         data.forEach((d) => {
-          new_data.xLabels.push(new Date(d.start).toDateString());
-          new_data.yLabels.push(d["requests/failed"].sum);
+
+          if(localStorage.getItem("Start")==null && localStorage.getItem("End")==null  ){
+            new_data.xLabels.push(new Date(d.end).toDateString());
+            new_data.yLabels.push(d["requests/failed"].sum);
+            }
+            else{
+
+              if(d.end>localStorage.getItem('Start') && d.start<=localStorage.getItem('End'))
+              {
+              new_data.xLabels.push(new Date(d.end).toDateString());
+              new_data.yLabels.push(d["requests/failed"].sum);
+              }
+
+            }
+        
+         
         });
         // console.log("final newData of failure:", new_data);
         setChartData(new_data);
@@ -51,7 +66,7 @@ const FailedReq = () => {
   useEffect(() => {
     // console.log("making fetch request");
     fetchChartData();
-  }, []);
+  },[]);
 
   const data = {
     labels: unique(new_data.xLabels),

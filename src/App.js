@@ -25,6 +25,7 @@ function App() {
       <div>
         <BrowserRouter forceRefresh={true}>
           <div>
+            
             <Routes>
               <Route path="/home/:email" element={<HomePage />} />
               <Route path="/register/:email" element={<RegisterApp />} />
