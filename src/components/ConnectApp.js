@@ -157,6 +157,7 @@ export default function ConnectData() {
   const [apiData, setApiData] = useState([], []);
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const[apiId1,setApiId1]=useState("");
 
   const isSubmitDisabled = !(apiKey && apiID);
 
@@ -204,6 +205,8 @@ export default function ConnectData() {
    localStorage.setItem("appname",event.target.value.split(",")[1] );
 
 localStorage.setItem("apiId",event.target.value.split(",")[0] );
+setApiId1(event.target.value.split(",")[0]);
+localStorage.setItem("apiKey",event.target.value.split(",")[2] );
    // setAppname(newAppName);
     // alert(newApiId);
 
@@ -277,6 +280,7 @@ localStorage.setItem("Span","P30D")
       body: JSON.stringify({
         email,
         apikey1,
+        apiId1,
       }),
 
      
@@ -285,7 +289,7 @@ localStorage.setItem("Span","P30D")
       .then((data) => {
         console.log(data.msg);
         if (data.msg == 'Incorrect API Key') {
-          setErrorMessage("Invalid API Key");
+          setErrorMessage("Invalid API Key or APP");
           setShowErrorMessage(true);
         }
         if (data.msg == 'Correct API Key') {
@@ -403,7 +407,7 @@ localStorage.setItem("Span","P30D")
               </option>
               {apiData.map((e, index) => {
                 return (
-                  <option  value={[e.apiid,e.appname]}>
+                  <option  value={[e.apiid,e.appname,e.apikey]}>
                     {e.appname}
                   </option>
                 );
@@ -429,13 +433,14 @@ localStorage.setItem("Span","P30D")
             style={{
               width: "70%",
               marginTop: "20px",
+              gap:"0px",
             }}
             value={apikey1}
             onChange={(e) => setApiKey1(e.target.value)}
 
           />
            
-<div style={{ textAlign: 'left' }}> {showErrorMessage && ( <div className="Error-message" style={{ color: 'red', paddingTop: '0', marginTop: '0px', fontSize: '16px', fontWeight: 'bold', }} > {errorMessage} </div> )} </div>
+<div style={{paddingRight:'310px',gap:"0px",}}> {showErrorMessage && ( <div className="Error-message" style={{ color: 'red', paddingTop: '0', marginTop: '0px', padingRight:'-50px',fontSize: '13px', fontWeight: 'bold', }} > {errorMessage} </div> )} </div>
 
 
 

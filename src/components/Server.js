@@ -108,7 +108,7 @@ app.post("/register", async (req, resp) => {
 
 
 app.post("/validateapikey", async (req, resp) => {
-console.log("hubcifwhbfciweifhiwe",req.body.email);
+console.log("hubcifwhbfciweifhiwe ---apiId1",req.body.apiId1);
   try {
     User.findOne({ email: req.body.email })
       .then((userData) => {
@@ -118,10 +118,13 @@ console.log("hubcifwhbfciweifhiwe",req.body.email);
         console.log(api[0]["apikey"],"asbdgxiuawgdiqg");
         let flag=false;
         api.forEach((a)=>{
-          if(req.body.apikey1==a["apikey"])
-          {flag=true;
+          if(req.body.apiId1==a["apiid"] && req.body.apikey1==a["apikey"])
+          {
+            
+          flag=true;
             //resp.send({ msg: "Correct API Key" });
-          }
+          console.log("correctttttt!11111")
+        }
 
         }
         )
