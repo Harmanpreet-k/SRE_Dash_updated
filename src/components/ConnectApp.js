@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
     fontSize: "70",
 
-    fontFamily: "monospace",
+    // fontFamily: "monospace",
 
     fontWeight: "bold",
 
@@ -89,10 +89,6 @@ const useStyles = makeStyles((theme) => ({
 
     color: "#EBF2FA",
 
-    // backgroundColor: "#ffd330",
-
-    // display: "flex",
-
     justifyContent: "center",
 
     alignItems: "center",
@@ -111,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
 
     fontSize: "70",
 
-    fontFamily: "monospace",
+    // fontFamily: "monospace",
 
     fontWeight: "bold",
 
@@ -145,7 +141,7 @@ export default function ConnectData() {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [apiId1, setApiId1] = useState("");
 
-  const isSubmitDisabled = !(apiKey && apiID);
+  const isSubmitDisabled = !(apikey1 && apiId1);
 
   const [appname, setAppname] = useState("");
   const location = useLocation();
@@ -353,6 +349,9 @@ export default function ConnectData() {
             border: "1px solid black",
             borderRadius: "10px",
             boxShadow: "0px 10px 14px -1px rgba(0,0,0,0.2)",
+            backgroundColor: "#F4F9FF",
+            marginLeft: "100px",
+
             // marginBottom: "70%",
           }}
         >
@@ -451,6 +450,7 @@ export default function ConnectData() {
               // disabled={isSubmitDisabled}
 
               onClick={handleConnectClick}
+              disabled={isSubmitDisabled}
             >
               Connect to Dashboard
             </Button>

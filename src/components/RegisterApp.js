@@ -171,6 +171,8 @@ export default function RegisterApp() {
             border: "1px solid black",
             borderRadius: "10px",
             boxShadow: "0px 10px 14px -1px rgba(0,0,0,0.2)",
+            backgroundColor: "#F4F9FF",
+            marginLeft: "100px",
             // marginBottom: "70%",
           }}
         >
@@ -208,9 +210,9 @@ export default function RegisterApp() {
           />
 
           <Button
-          style={{
-            padding:"25px"
-          }}
+            style={{
+              padding: "25px",
+            }}
             variant="contained"
             // href="/home"
             className={classes.button}

@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     overflowY: "auto",
     // backgroundColor: "white",
-    height: "81vh",
+    height: "85vh",
     marginTop: "80px",
     border: "1px solid #000000",
     margin: theme.spacing(2),
@@ -170,36 +170,31 @@ function HomePage() {
   const [selectedValue, setSelectedValue] = useState(""); // State to store selected value
   const [selectedValues, setSelectedValues] = useState(""); // State to store selected value
 
-  const [heading,setHeading]=useState("TimeSpan");
-  const [endDate,setEndDate]=useState()
+  const [heading, setHeading] = useState("TimeSpan");
+  const [endDate, setEndDate] = useState();
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
     localStorage.setItem("Span", event.target.value);
-    localStorage.setItem("Name",event.target.value);
+    localStorage.setItem("Name", event.target.value);
     window.location.reload(true);
-   
 
- 
     // Update selected value in state
   };
-  const RefreshMethod=()=>
-  {
-    window.location.reload(true)
-  }
+  const RefreshMethod = () => {
+    window.location.reload(true);
+  };
 
-  const handleStartDates=(e)=>
-  {
+  const handleStartDates = (e) => {
     setDate(e.target.value);
-    localStorage.setItem("Start",e.target.value);
-    console.log(localStorage.getItem('Start'));
-  }
-  const handleEndDates=(e)=>
-  {
+    localStorage.setItem("Start", e.target.value);
+    console.log(localStorage.getItem("Start"));
+  };
+  const handleEndDates = (e) => {
     setEndDate(e.target.value);
-    localStorage.setItem("End",e.target.value);
-    console.log(localStorage.getItem('End'));
-  }
+    localStorage.setItem("End", e.target.value);
+    console.log(localStorage.getItem("End"));
+  };
   const handleChangesInterval = (event) => {
     setSelectedValues(event.target.value); // Update selected value in state
     localStorage.setItem("interval", event.target.value);
@@ -231,7 +226,7 @@ function HomePage() {
   const isSubmitDisabled = !(apiKey && apiID);
   const location = useLocation();
 
-  const [startDate,setDate]=useState();
+  const [startDate, setDate] = useState();
   // const email = queryParameters.get("email");
 
   const handleConnectClick = async (e) => {
@@ -277,8 +272,8 @@ function HomePage() {
   };
   const handleButtonClick = () => {
     setEmail((prevEmail) => {
-      localStorage.removeItem("Start")
-      localStorage.removeItem("End")
+      localStorage.removeItem("Start");
+      localStorage.removeItem("End");
       const newEmail = location.pathname.split("/")[2].slice(0);
       console.log(newEmail, "mail mail");
       window.location.href = `/connect/${newEmail}`;
@@ -586,17 +581,17 @@ function HomePage() {
                   gap: "10px",
                   textAlign: "left",
                   color: "white",
-                  // marginRight: "85px",
+                  marginLeft: "85px",
                   marginTop: "0px",
                   // marginTop: "5px",
 
-                  fontSize: "25px",
+                  fontSize: "40px",
                   fontWeight: "bold",
 
                   textShadow: "3px 3px 5px rgba(0, 0, 0, 1)",
                 }}
               >
-               {appname}
+                {appname}
               </div>
               <FormControl
                 fullWidth
@@ -606,8 +601,7 @@ function HomePage() {
                   width: "150px",
                   marginTop: "45px",
                   marginLeft: "0px",
-                  marginRight: "-28px",
-                 
+                  marginRight: "-20px",
                 }}
               >
                 {/* <InputLabel
@@ -631,20 +625,39 @@ function HomePage() {
                   <MenuItem value="P1D">Day</MenuItem>
                 </Select> */}
               </FormControl>
-             
-               
-             <div className="row justify-content-end m-3" >
-                 <div className="col"><label className="title">From :</label> <input className="form-control" type="date" value={localStorage.getItem("Start")}    onChange={handleStartDates} max={localStorage.getItem("today")}/></div>
-                 <div className="col"><label className="title">To :   </label><input type="date" className="form-control" value={localStorage.getItem("End")}  onChange={handleEndDates} min={localStorage.getItem("Start")}  max={localStorage.getItem("today")}/></div>
-                   
-                <div className="col"><br/><button onClick={RefreshMethod} className="btn btn-dark">Search</button></div>
-               
-             </div>
-               
-                 
-              
-             
-              <ReactSpeedometer 
+
+              <div className="row justify-content-end m-3">
+                <div className="col">
+                  <label className="title">From :</label>{" "}
+                  <input
+                    className="form-control"
+                    type="date"
+                    value={localStorage.getItem("Start")}
+                    onChange={handleStartDates}
+                    max={localStorage.getItem("today")}
+                  />
+                </div>
+                <div className="col">
+                  <label className="title">To : </label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={localStorage.getItem("End")}
+                    onChange={handleEndDates}
+                    min={localStorage.getItem("Start")}
+                    max={localStorage.getItem("today")}
+                  />
+                </div>
+
+                <div className="col">
+                  <br />
+                  <button onClick={RefreshMethod} className="btn btn-dark">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+              <ReactSpeedometer
                 styles={{
                   marginTop: "0px",
                   marginBottom: "-300px",
@@ -700,16 +713,15 @@ function HomePage() {
                     fontSize: "10px",
                   },
                 ]}
-              
               />
-              
             </div>
-           
+
             <Typography
               variant="poster"
               style={{
-                marginLeft: "1070px",
+                marginLeft: "1467px",
                 marginTop: "0px",
+                marginBottom: "400px",
                 padding: 0,
                 color: "white",
                 fontSize: "15px",
@@ -717,9 +729,8 @@ function HomePage() {
 
                 textShadow: "2px 2px 3px rgba(0, 0, 0, 1)",
               }}
-              
             >
-           <label>  Reliability Score</label>
+              <label> Reliability Score</label>
             </Typography>
 
             <div
@@ -727,8 +738,9 @@ function HomePage() {
                 display: "flex",
                 flexWrap: "wrap",
                 gap: "4rem",
+
                 justifyContent: "center",
-                marginTop: "1px",
+                marginTop: "30px",
               }}
             >
               <div
@@ -767,7 +779,7 @@ function HomePage() {
                     Latency
                   </Typography>
                 </Box>
-                <Letancy  start={startDate} end={endDate} />
+                <Letancy start={startDate} end={endDate} />
               </div>
 
               <div
