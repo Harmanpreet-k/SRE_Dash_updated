@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import ArrowBack from "@material-ui/icons/ArrowBackIos";
 import axios from "axios";
 import "./connect.css";
-
+import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   fileInput: {
@@ -43,102 +43,88 @@ const useStyles = makeStyles((theme) => ({
   },
 
   connectButton: {
+    backgroundColor: "#EE9949",
 
-        backgroundColor: "#EE9949",
-    
-    
-    
-    
-        color: "#5f3d1d",
-    
-        // backgroundColor: "#ffd330",
-    
-        // display: "flex",
-    
-        justifyContent: "center",
-    
-        alignItems: "center",
-    
-        flex: 0.4,
-    
-        marginTop: theme.spacing(2),
-    
-        borderRadius: "5px",
-    
-        border: "4",
-    
-        height: "60px",
-    
-        // width: "10px",
-    
-        fontSize: "70",
-    
-        fontFamily: "monospace",
-    
-        fontWeight: "bold",
-    
-        boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
-    
-        marginBottom: "10px",
-    
-        "&:hover": {
-    
-          backgroundColor: "#be7a3a",
-    
-          color: "white",
-    
-        },
-    
-      },
-    
-      registerButton: {
-    
-        backgroundColor: "#1D458A",
-    
-    
-    
-    
-        color: "#EBF2FA",
-    
-        // backgroundColor: "#ffd330",
-    
-        // display: "flex",
-    
-        justifyContent: "center",
-    
-        alignItems: "center",
-    
-        flex: 0.4,
-    
-        marginTop: theme.spacing(2),
-    
-        borderRadius: "5px",
-    
-        border: "4",
-    
-        height: "60px",
-    
-        // width: "10px",
-    
-        fontSize: "70",
-    
-        fontFamily: "monospace",
-    
-        fontWeight: "bold",
-    
-        boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
-    
-        marginBottom: "10px",
-    
-        "&:hover": {
-    
-          backgroundColor: "#4B75CB",
-    
-          color: "white",
-    
-        },
-    
-      },
+    color: "#5f3d1d",
+
+    // backgroundColor: "#ffd330",
+
+    // display: "flex",
+
+    justifyContent: "center",
+
+    alignItems: "center",
+
+    flex: 0.4,
+
+    marginTop: theme.spacing(2),
+
+    borderRadius: "5px",
+
+    border: "4",
+
+    height: "60px",
+
+    // width: "10px",
+
+    fontSize: "70",
+
+    fontFamily: "monospace",
+
+    fontWeight: "bold",
+
+    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
+
+    marginBottom: "10px",
+
+    "&:hover": {
+      backgroundColor: "#be7a3a",
+
+      color: "white",
+    },
+  },
+
+  registerButton: {
+    backgroundColor: "#1D458A",
+
+    color: "#EBF2FA",
+
+    // backgroundColor: "#ffd330",
+
+    // display: "flex",
+
+    justifyContent: "center",
+
+    alignItems: "center",
+
+    flex: 0.4,
+
+    marginTop: theme.spacing(2),
+
+    borderRadius: "5px",
+
+    border: "4",
+
+    height: "60px",
+
+    // width: "10px",
+
+    fontSize: "70",
+
+    fontFamily: "monospace",
+
+    fontWeight: "bold",
+
+    boxShadow: "0px 2px 4px -1px rgba(0,0,0,0.2)",
+
+    marginBottom: "10px",
+
+    "&:hover": {
+      backgroundColor: "#4B75CB",
+
+      color: "white",
+    },
+  },
 
   body: {
     overflow: "hidden",
@@ -157,7 +143,7 @@ export default function ConnectData() {
   const [apiData, setApiData] = useState([], []);
   const [errorMessage, setErrorMessage] = useState("");
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const[apiId1,setApiId1]=useState("");
+  const [apiId1, setApiId1] = useState("");
 
   const isSubmitDisabled = !(apiKey && apiID);
 
@@ -166,17 +152,12 @@ export default function ConnectData() {
 
   const [email, setEmail] = useState(location.pathname.split("/")[2].slice(0));
 
-  
- 
-
-
   const handleApiKeyChange = async (event) => {
     const newApiKey = event.target.value;
     alert(newApiKey);
 
     const newEmail = location.pathname.split("/")[2].slice(0);
     //  await fetch("http://localhost:5000/identifyapikey", {
-
 
     //    method: "post",
     //     body: JSON.stringify({newApiKey,email}),
@@ -189,7 +170,6 @@ export default function ConnectData() {
     //       console.log(data, "data");
     //     });
 
-
     setEmail(newEmail);
     //setApiKey1(newApiKey);
 
@@ -200,14 +180,14 @@ export default function ConnectData() {
     //setApiID(newApiId);
     //const newAppName = event.target.value.split(",")[0];
     // alert(event.target.value.split(",")[0]);
-   // localStorage.setItem("appname", newAppName);
+    // localStorage.setItem("appname", newAppName);
     //localStorage.setItem("apiId", newApiId);
-   localStorage.setItem("appname",event.target.value.split(",")[1] );
+    localStorage.setItem("appname", event.target.value.split(",")[1]);
 
-localStorage.setItem("apiId",event.target.value.split(",")[0] );
-setApiId1(event.target.value.split(",")[0]);
-localStorage.setItem("apiKey",event.target.value.split(",")[2] );
-   // setAppname(newAppName);
+    localStorage.setItem("apiId", event.target.value.split(",")[0]);
+    setApiId1(event.target.value.split(",")[0]);
+    localStorage.setItem("apiKey", event.target.value.split(",")[2]);
+    // setAppname(newAppName);
     // alert(newApiId);
 
     // localStorage.setItem("appname", newAppName);
@@ -223,36 +203,23 @@ localStorage.setItem("apiKey",event.target.value.split(",")[2] );
   };
 
   const handleConnectClick = async (e) => {
-   
-
-
     const timeElapsed = Date.now();
 
     const today = new Date(timeElapsed);
 
-    localStorage.setItem("today",today.toISOString().split("T")[0])
+    localStorage.setItem("today", today.toISOString().split("T")[0]);
 
+    console.log(today.toISOString().split("T")[0]);
 
+    localStorage.removeItem("Start");
 
+    localStorage.removeItem("End");
 
-   
+    localStorage.setItem("Span", "P30D");
 
-    console.log(today.toISOString().split("T")[0])
+    e.preventDefault();
 
-localStorage.removeItem("Start")
-
-localStorage.removeItem("End")
-
-localStorage.setItem("Span","P30D")
- 
-
-
-
-
-
-    e.preventDefault()
-
-    setEmail(location.pathname.split("/")[2].slice(0))
+    setEmail(location.pathname.split("/")[2].slice(0));
 
     // e.preventDefault();
     // console.log(email);
@@ -268,7 +235,6 @@ localStorage.setItem("Span","P30D")
     //   return newEmail;
     // });
 
-
     fetch("http://localhost:5000/validateapikey", {
       method: "POST",
       crossDomain: true,
@@ -282,29 +248,31 @@ localStorage.setItem("Span","P30D")
         apikey1,
         apiId1,
       }),
-
-     
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data.msg);
-        if (data.msg == 'Incorrect API Key') {
-          setErrorMessage("Invalid API Key or APP");
-          setShowErrorMessage(true);
+        if (data.msg == "Incorrect API Key") {
+          // setErrorMessage("Invalid API Key or APP");
+          Swal.fire({
+            icon: "error",
+
+            title: "Oops...",
+
+            text: "Invalid API Key Entered!",
+
+            footer: '<a href="">Please Check Your Key Again?</a>',
+          });
+          // setShowErrorMessage(true);
         }
-        if (data.msg == 'Correct API Key') {
+        if (data.msg == "Correct API Key") {
           // setErrorMessage("Valid API Key");
           // setShowErrorMessage(true);
           localStorage.setItem("apiKey", apikey1);
-          console.log("newApikey",);
-          window.location.href = `/home/${email}`
-
+          console.log("newApikey");
+          window.location.href = `/home/${email}`;
         }
-
       });
-
-
-
   };
 
   const Apifun = async () => {
@@ -326,15 +294,13 @@ localStorage.setItem("Span","P30D")
     } catch (error) {
       console.log(error);
       if (error.response.status === 403) {
-        setErrorMessage('You are not authorized to access this resource.');
+        setErrorMessage("You are not authorized to access this resource.");
         setShowErrorMessage(true);
         // setTimeout(() => {
         // //   window.location.href = `/`;
         //  }, 15000);
       }
-
     }
-
   };
 
   useEffect(() => {
@@ -390,31 +356,32 @@ localStorage.setItem("Span","P30D")
             // marginBottom: "70%",
           }}
         >
-          <div>
-            <select
-              onChange={handleApiIdChange}
-              style={{
-                width: "350px",
-                marginTop: "80px",
-                marginLeft: "0px",
-                marginRight: "-28px",
-              }}
+          {/* <div> */}
+          <select
+            onChange={handleApiIdChange}
+            style={{
+              width: "540px",
+              padding: "5px",
+              // marginTop: "80px",
+              // marginLeft: "0px",
+              // marginRight: "-28px",
+            }}
 
-              //value={apiID}
-            >
-              <option value="" disabled selected>
-                Select app name
-              </option>
-              {apiData.map((e, index) => {
-                return (
-                  <option  value={[e.apiid,e.appname,e.apikey]}>
-                    {e.appname}
-                  </option>
-                );
-              })}
-            </select>
-            
-          </div>
+            //value={apiID}
+          >
+            <option value="" disabled selected>
+              Select app name
+            </option>
+            {apiData.map((e, index) => {
+              return (
+                <option value={[e.apiid, e.appname, e.apikey]}>
+                  {e.appname}
+                </option>
+              );
+            })}
+          </select>
+
+          {/* </div> */}
 
           {/* <TextField
             label="Enter APP ID "
@@ -433,77 +400,70 @@ localStorage.setItem("Span","P30D")
             style={{
               width: "70%",
               marginTop: "20px",
-              gap:"0px",
+              gap: "0px",
             }}
             value={apikey1}
             onChange={(e) => setApiKey1(e.target.value)}
-
           />
-           
-<div style={{paddingRight:'310px',gap:"0px",}}> {showErrorMessage && ( <div className="Error-message" style={{ color: 'red', paddingTop: '0', marginTop: '0px', padingRight:'-50px',fontSize: '13px', fontWeight: 'bold', }} > {errorMessage} </div> )} </div>
 
-
+          {/* <div style={{ paddingRight: "310px", gap: "0px" }}>
+            {" "}
+            {showErrorMessage && (
+              <div
+                className="Error-message"
+                style={{
+                  color: "red",
+                  paddingTop: "0",
+                  marginTop: "0px",
+                  padingRight: "-50px",
+                  fontSize: "13px",
+                  fontWeight: "bold",
+                }}
+              >
+                {" "}
+                {errorMessage}{" "}
+              </div>
+            )}{" "}
+          </div> */}
 
           <div
+            style={{
+              display: "flex",
 
-                  style={{
+              flexDirection: "row",
 
-                     display: "flex",
+              justifyContent: "space-between",
 
-                     flexDirection: "row",
+              // height: "200px",
 
-                     justifyContent: "space-between",
+              width: "40vw",
 
-                     // height: "200px",
+              paddingLeft: "40px",
 
-                     width: "40vw",
+              paddingRight: "35px",
+            }}
+          >
+            <Button
+              variant="contained"
+              // href="/home"
 
-                     paddingLeft: "40px",
+              className={classes.connectButton}
+              // disabled={isSubmitDisabled}
 
-                     paddingRight: "35px",
+              onClick={handleConnectClick}
+            >
+              Connect to Dashboard
+            </Button>
 
-                  }}
+            <Button
+              variant="contained"
+              className={classes.registerButton}
+              onClick={handleRegisterClick}
+            >
+              Register New App
+            </Button>
+          </div>
 
-               >
-                
-
-                  <Button
-
-                     variant="contained"
-
-                     // href="/home"
-
-                     className={classes.connectButton}
-
-                     // disabled={isSubmitDisabled}
-
-                     onClick={handleConnectClick}
-
-                  >
-
-                     Connect to Dashboard
-
-                  </Button>
-
-                  <Button
-
-                     variant="contained"
-
-                     className={classes.registerButton}
-
-                     onClick={handleRegisterClick}
-
-                  >
-
-                     Register New App
-
-                  </Button>
-
-               </div>
-          
-         
-
-          
           {/* </div> */}
         </div>
       </div>
