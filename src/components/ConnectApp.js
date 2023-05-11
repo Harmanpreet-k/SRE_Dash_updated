@@ -283,9 +283,21 @@ export default function ConnectData() {
           "Access-Control-Allow-Origin": "*",
         },
       });
+      const newEmail = location.pathname.split("/")[2].slice(0);
       const data = await response.json();
-      console.log(data.msg[0].api, "apidataa");
-      setApiData(data.msg[0].api);
+      var sf;
+      data.msg.map((d)=>{
+        console.log("1......",d.email);
+        if(d.email===newEmail)
+        {
+          console.log(d.email,"true")
+          sf=d;
+        }
+        
+      })
+      //console.log(data);
+      //console.log(data.msg[0].api, "apidataa");
+      setApiData(sf.api);
       console.log(apiData, "apiiiii");
     } catch (error) {
       console.log(error);

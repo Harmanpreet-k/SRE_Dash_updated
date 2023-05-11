@@ -119,16 +119,14 @@ const Login = () => {
                   }
                 )
                   .then((res) => res.json())
-                  .then((data) => {
-                    console.log(data.msg, "dataa");
-                    // setLoggedmail(data.msg);
-                    // console.log(loggedmail, "eee");
-                    setSuccessMessage("Login successful!!");
-                    setShowSuccessMessage(true);
-                    setTimeout(() => {
-                      window.location.href = `/connect/${data.msg}`;
-                    }, 2000);
-                  });
+                  .then((data) => { if (data.msg == null) { setError("Incorrect username or password."); } else { console.log(data.msg, "dataa"); setSuccessMessage("Login successful!!"); setShowSuccessMessage(true); setTimeout(() => { window.location.href = `/connect/${data.msg}`; }, 2000); } })
+                  
+                  
+                  
+                   
+                   
+                  
+                 
               } catch (err) {
                 console.log(err);
                 setError("Incorrect username or password.");

@@ -98,7 +98,7 @@ const Letancy = (props) => {
 
     datasets: [
       {
-        label: "Server requests",
+        label: "Latency",
         backgroundColor: [
           "#fff2bf",
 
