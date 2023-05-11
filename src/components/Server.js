@@ -206,13 +206,16 @@ app.post("/login", async (req, res) => {
             res.send({ msg: "invalid user" });
           }
         }
+        else{
+          res.send({ msg: "invalid user" });
+        }
       })
       .catch((err) => {
         res.send({ msg: "invalid user" });
       });
   } 
   catch (e) {
-    res.send({ msg: "invalid credentials" });
+    res.send({ msg: "invalid user" });
   }
 });
 

@@ -124,77 +124,117 @@ const Signup = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    let result = await fetch("http://localhost:5000/register", {
-      method: "post",
-
-      body: JSON.stringify({
-        name,
-        email,
-        phone,
-        password,
-        apikey,
-        apiid,
-        appname,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    result = await result.json();
-
-    console.warn(result);
-
-    if (!validateEmail()) {
-      setEmailError("Enter a valid emailId");
-    }
-    if (!validatePassword()) {
-      setPasswordError("Enter a valid emailId");
-    }
-    if (!validateName()) {
-      setNameError("Enter a valid name");
-    }
-    if (!validateConfirmPassword()) {
-      setNameError();
-    }
-    if (!validatePhone()) {
-      setPhoneError();
-    } else if (result) {
-      validateName() &&
-        validateEmail() &&
-        validatePhone() &&
-        validatePassword() &&
-        validateConfirmPassword();
-      // alert("Data saved succesfully");
-      setSuccessMessage("Signup successful!!");
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        window.location.href = "/";
-      }, 2000);
-      // alert("signed up successfully");
-
-      // setEmail("");
-
-      // setName("");
-      //
-      // setPhone("");
-
-      // setPassword("");
-
-      //  )
-    }
-    // )
-    // {
-
-    //   alert("successfully signed up");
-    //   console.log("Form is valid");
-    //   window.location.href = "/";
-    // } else {
-    //   console.log("Form is invalid");
-    // }
-  };
+        e.preventDefault();
+    
+    
+    
+    
+        let result = await fetch("http://localhost:5000/register", {
+    
+          method: "post",
+    
+    
+    
+    
+          body: JSON.stringify({
+    
+            name,
+    
+            email,
+    
+            phone,
+    
+            password,
+    
+            apikey,
+    
+            apiid,
+    
+            appname,
+    
+          }),
+    
+          headers: {
+    
+            "Content-Type": "application/json",
+    
+          },
+    
+        });
+    
+    
+    
+    
+        result = await result.json();
+    
+    
+    
+    
+        console.warn(result);
+    
+    
+    
+    
+        if (!validateEmail()) {
+    
+          setEmailError("Enter a valid emailId");
+    
+        }
+    
+        if (!validatePassword()) {
+    
+          setPasswordError("Enter a valid password");
+    
+        }
+    
+        if (!validateName()) {
+    
+          setNameError("Enter a valid name");
+    
+        }
+    
+        if (!validateConfirmPassword()) {
+    
+          setNameError("");
+    
+        }
+    
+        if (!validatePhone()) {
+    
+          setPhoneError();
+    
+        }
+    
+        if (
+    
+          validateEmail() &&
+    
+          validatePassword() &&
+    
+          validateName() &&
+    
+          validateConfirmPassword() &&
+    
+          validatePhone() &&
+    
+          result
+    
+        ) {
+    
+          setSuccessMessage("Signup successful!!");
+    
+          setShowSuccessMessage(true);
+    
+          setTimeout(() => {
+    
+            window.location.href = "/";
+    
+          }, 2000);
+    
+        }
+    
+      };
 
   const paperStyle = { padding: "40px 30px", width: 1000, margin: "15px auto" };
   const headerStyle = { margin: 0 };

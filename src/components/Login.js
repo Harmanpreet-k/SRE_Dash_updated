@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import "./login.css";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Swal from"sweetalert2";
 // import LockIcon from "@mui/icons-material/Lock";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -119,14 +120,20 @@ const Login = () => {
                   }
                 )
                   .then((res) => res.json())
-                  .then((data) => { if (data.msg == null) { setError("Incorrect username or password."); } else { console.log(data.msg, "dataa"); setSuccessMessage("Login successful!!"); setShowSuccessMessage(true); setTimeout(() => { window.location.href = `/connect/${data.msg}`; }, 2000); } })
-                  
-                  
-                  
-                   
-                   
-                  
-                 
+                  .then((data) => {
+                    console.log(data.msg, "dataa");
+                    // setLoggedmail(data.msg);
+                    // console.log(loggedmail, "eee");
+                    Swal.fire(
+                      'Good job!',
+                      'You Logged in Successfully!',
+                      'success'
+                    )
+                    setShowSuccessMessage(true);
+                    setTimeout(() => {
+                      window.location.href = `/connect/${data.msg}`;
+                    }, 2000);
+                  });
               } catch (err) {
                 console.log(err);
                 setError("Incorrect username or password.");
@@ -136,6 +143,15 @@ const Login = () => {
             });
 
           localStorage.setItem("display", false);
+        }
+        else
+        {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Wrong Username or Password',
+            footer: '<a href="">Please Check Your Key Again?</a>'
+          })
         }
       });
   };
