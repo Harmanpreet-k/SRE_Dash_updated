@@ -173,6 +173,8 @@ function HomePage() {
   const [heading, setHeading] = useState("TimeSpan");
   const [endDate, setEndDate] = useState();
 
+const [error, setError] = useState("");
+
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
     localStorage.setItem("Span", event.target.value);
@@ -189,6 +191,20 @@ function HomePage() {
     setDate(e.target.value);
     localStorage.setItem("Start", e.target.value);
     console.log(localStorage.getItem("Start"));
+
+    
+      const selectedDate = e.target.value;
+     
+      // Check if the selectedDate is empty or invalid
+      if (!selectedDate) {
+        setError("Please select a valid date");
+      } else {
+        setError(""); // Reset the error message if the date is valid
+     // Additional logic or actions based on the selectedDate...
+     }
+     
+     // ...
+    
   };
   const handleEndDates = (e) => {
     setEndDate(e.target.value);
@@ -284,6 +300,7 @@ function HomePage() {
   const handleDrawerOpen = () => {
     setIsOpen(true);
   };
+
 
   const handleDrawerClose = () => {
     setIsOpen(false);
@@ -635,7 +652,14 @@ function HomePage() {
                     value={localStorage.getItem("Start")}
                     onChange={handleStartDates}
                     max={localStorage.getItem("today")}
+                    onKeyDown={(e) => e.preventDefault()}
+   onPaste={(e) => e.preventDefault()}
+   onCut={(e) => e.preventDefault()}
+   onDrag={(e) => e.preventDefault()}
+  onDrop={(e) => e.preventDefault()}
+                  
                   />
+                  {error &&<p className="error">{error}</p>}
                 </div>
                 <div className="col">
                   <label className="title">To : </label>
@@ -646,6 +670,11 @@ function HomePage() {
                     onChange={handleEndDates}
                     min={localStorage.getItem("Start")}
                     max={localStorage.getItem("today")}
+                    onKeyDown={(e) => e.preventDefault()}
+                    onPaste={(e) => e.preventDefault()}
+                    onCut={(e) => e.preventDefault()}
+                    onDrag={(e) => e.preventDefault()}
+                   onDrop={(e) => e.preventDefault()}
                   />
                 </div>
 
@@ -656,6 +685,7 @@ function HomePage() {
                   </button>
                 </div>
               </div>
+             
 
               <ReactSpeedometer
                 styles={{
