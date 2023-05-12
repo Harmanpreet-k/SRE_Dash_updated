@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 import {
   Grid,
   Paper,
@@ -222,7 +223,11 @@ const Signup = () => {
     
         ) {
     
-          setSuccessMessage("Signup successful!!");
+          Swal.fire(
+            'Good job!',
+            'You Signed Up Successfully!',
+            'success'
+          )
     
           setShowSuccessMessage(true);
     

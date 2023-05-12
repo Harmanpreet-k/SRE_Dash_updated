@@ -371,7 +371,7 @@ export default function ConnectData() {
           <select
             onChange={handleApiIdChange}
             style={{
-              width: "540px",
+              width: "600px",
               padding: "5px",
               // marginTop: "80px",
               // marginLeft: "0px",
