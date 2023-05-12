@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import AppsIcon from "@material-ui/icons/Apps";
 import IconButton from "@material-ui/core/IconButton";
+import Swal from "sweetalert2";
 // import SpeedIcon from "@mui/icons-material/Speed";
 import "./home.css";
 import { Doughnut } from "react-chartjs-2";
@@ -185,6 +186,34 @@ const [error, setError] = useState("");
   };
   const RefreshMethod = () => {
     window.location.reload(true);
+   
+
+   if(localStorage.getItem('Start')==null || localStorage.getItem("End")==null)
+
+    {
+
+      Swal.fire(
+
+        'Ooops ',
+
+        'Both Field are required',
+
+        'question'
+
+      )
+
+    }
+
+    else
+
+    {
+
+      window.location.reload(true);
+
+    }
+
+
+
   };
 
   const handleStartDates = (e) => {
@@ -196,20 +225,39 @@ const [error, setError] = useState("");
       const selectedDate = e.target.value;
      
       // Check if the selectedDate is empty or invalid
-      if (!selectedDate) {
-        setError("Please select a valid date");
-      } else {
-        setError(""); // Reset the error message if the date is valid
-     // Additional logic or actions based on the selectedDate...
-     }
+      
      
      // ...
+      if(localStorage.getItem('Start')==null || localStorage.getItem("End")==null)
+
+    {
+
+      Swal.fire(
+
+        'Ooops ',
+
+        'Both Field are required',
+
+        'question'
+
+      )
+
+    }
+
+    else
+
+    {
+
+      window.location.reload(true);
+
+    }
     
   };
   const handleEndDates = (e) => {
     setEndDate(e.target.value);
     localStorage.setItem("End", e.target.value);
     console.log(localStorage.getItem("End"));
+  
   };
   const handleChangesInterval = (event) => {
     setSelectedValues(event.target.value); // Update selected value in state
@@ -659,7 +707,7 @@ const [error, setError] = useState("");
   onDrop={(e) => e.preventDefault()}
                   
                   />
-                  {error &&<p className="error">{error}</p>}
+                  
                 </div>
                 <div className="col">
                   <label className="title">To : </label>
