@@ -185,7 +185,7 @@ const [error, setError] = useState("");
     // Update selected value in state
   };
   const RefreshMethod = () => {
-    window.location.reload(true);
+   
    
 
    if(localStorage.getItem('Start')==null || localStorage.getItem("End")==null)
@@ -227,30 +227,6 @@ const [error, setError] = useState("");
       // Check if the selectedDate is empty or invalid
       
      
-     // ...
-      if(localStorage.getItem('Start')==null || localStorage.getItem("End")==null)
-
-    {
-
-      Swal.fire(
-
-        'Ooops ',
-
-        'Both Field are required',
-
-        'question'
-
-      )
-
-    }
-
-    else
-
-    {
-
-      window.location.reload(true);
-
-    }
     
   };
   const handleEndDates = (e) => {
